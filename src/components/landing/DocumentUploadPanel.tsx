@@ -63,15 +63,13 @@ export function DocumentUploadPanel() {
 
     setFiles((prev) => [...prev, ...newFiles]);
 
-    // Simulate multi-tier chunking & embedding pipeline
+    // Multi-tier chunking & embedding pipeline simulation
     for (const newFile of newFiles) {
-      // Step 1: Uploading
       await new Promise((res) => setTimeout(res, 600));
       setFiles((prev) =>
         prev.map((f) => (f.id === newFile.id ? { ...f, status: "indexing", progress: 65 } : f))
       );
 
-      // Step 2: Indexing in Appwrite VectorsDB with Gemini text-embedding-004
       await new Promise((res) => setTimeout(res, 800));
       setFiles((prev) =>
         prev.map((f) => (f.id === newFile.id ? { ...f, status: "success", progress: 100 } : f))
@@ -94,16 +92,16 @@ export function DocumentUploadPanel() {
   const hasSuccessfulFiles = files.some((f) => f.status === "success");
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-white/95 backdrop-blur-xl border border-slate-200/90 rounded-2xl shadow-xl p-6 sm:p-8">
+    <div className="w-full max-w-4xl mx-auto bg-[#0a0f26]/95 backdrop-blur-2xl border border-blue-500/30 rounded-3xl shadow-2xl p-6 sm:p-8 text-white">
       <div className="text-center max-w-xl mx-auto mb-6">
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-semibold mb-3 border border-blue-100">
+        <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#8BFF68]/15 text-[#8BFF68] rounded-full text-xs font-bold mb-3 border border-[#8BFF68]/30">
           <UploadCloud className="w-3.5 h-3.5" />
           <span>Multimodal Ingestion Engine</span>
         </div>
-        <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+        <h3 className="text-xl sm:text-2xl font-black text-white mb-2">
           Drop Your Course Notes or Syllabi
         </h3>
-        <p className="text-xs sm:text-sm text-slate-600">
+        <p className="text-xs sm:text-sm text-slate-300">
           Appwrite stores chunk embeddings via Google Gemini text-embedding-004 for high-speed semantic retrieval.
         </p>
       </div>
@@ -114,10 +112,10 @@ export function DocumentUploadPanel() {
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onClick={() => fileInputRef.current?.click()}
-        className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all ${
+        className={`border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all ${
           isDragging
-            ? "border-blue-600 bg-blue-50/60 scale-[1.01]"
-            : "border-slate-300 hover:border-blue-400 bg-slate-50/60 hover:bg-slate-50"
+            ? "border-[#8BFF68] bg-[#8BFF68]/10 scale-[1.01]"
+            : "border-blue-500/40 hover:border-[#8BFF68] bg-[#070b1a]/80 hover:bg-[#070b1a]"
         }`}
       >
         <input
@@ -128,29 +126,29 @@ export function DocumentUploadPanel() {
           className="hidden"
           onChange={(e) => handleFiles(e.target.files)}
         />
-        <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center">
-          <UploadCloud className="w-6 h-6" />
+        <div className="w-12 h-12 mx-auto mb-3 rounded-2xl bg-[#8BFF68] text-black flex items-center justify-center shadow-[0_0_20px_rgba(139,255,104,0.4)] font-bold">
+          <UploadCloud className="w-6 h-6 text-black" />
         </div>
-        <p className="text-sm font-semibold text-slate-800 mb-1">
+        <p className="text-sm font-bold text-white mb-1">
           Click to browse or drag and drop files here
         </p>
-        <p className="text-xs text-slate-600 mb-3">
+        <p className="text-xs text-slate-400 mb-3">
           Supports TXT, Markdown (.md), PDF notes, and Course Syllabus documents
         </p>
-        <div className="inline-flex items-center gap-2 text-[11px] text-slate-600 bg-white px-3 py-1 rounded-md border border-slate-200 font-mono">
+        <div className="inline-flex items-center gap-2 text-[11px] text-slate-300 bg-white/5 px-3 py-1 rounded-md border border-white/10 font-mono">
           <span>Max size: 10MB</span>
           <span>•</span>
-          <span>Automatic Semantic Chunking</span>
+          <span className="text-[#8BFF68]">Automatic Semantic Chunking</span>
         </div>
       </div>
 
       {/* Uploaded Documents List */}
       {files.length > 0 && (
         <div className="mt-6 space-y-2.5">
-          <div className="text-xs font-semibold uppercase tracking-wider text-slate-600 flex items-center justify-between">
+          <div className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center justify-between">
             <span>Ingested Documents ({files.length})</span>
             {isProcessing && (
-              <span className="text-blue-600 flex items-center gap-1 normal-case font-medium">
+              <span className="text-[#8BFF68] flex items-center gap-1 normal-case font-bold">
                 <Loader2 className="w-3 h-3 animate-spin" /> Vectorizing chunks...
               </span>
             )}
@@ -160,36 +158,36 @@ export function DocumentUploadPanel() {
             {files.map((file) => (
               <div
                 key={file.id}
-                className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-800"
+                className="flex items-center justify-between p-3.5 rounded-xl bg-[#0e1638] border border-blue-500/20 text-xs text-white"
               >
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="p-2 bg-white rounded-lg border border-slate-200 text-blue-600 shrink-0">
+                  <div className="p-2 bg-blue-950 rounded-lg border border-blue-500/40 text-[#8BFF68] shrink-0">
                     <FileText className="w-4 h-4" />
                   </div>
                   <div className="min-w-0">
-                    <p className="font-semibold truncate max-w-xs sm:max-w-md">{file.name}</p>
-                    <p className="text-[11px] text-slate-600">{file.size}</p>
+                    <p className="font-bold truncate max-w-xs sm:max-w-md">{file.name}</p>
+                    <p className="text-[11px] text-slate-400">{file.size}</p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-3 shrink-0">
                   {file.status === "uploading" && (
-                    <span className="text-blue-600 flex items-center gap-1 font-medium text-[11px]">
+                    <span className="text-blue-400 flex items-center gap-1 font-bold text-[11px]">
                       <Loader2 className="w-3 h-3 animate-spin" /> Uploading...
                     </span>
                   )}
                   {file.status === "indexing" && (
-                    <span className="text-indigo-600 flex items-center gap-1 font-medium text-[11px]">
+                    <span className="text-[#8BFF68] flex items-center gap-1 font-bold text-[11px]">
                       <Sparkles className="w-3 h-3 animate-pulse" /> Embedding vectors...
                     </span>
                   )}
                   {file.status === "success" && (
-                    <span className="text-emerald-600 flex items-center gap-1 font-medium text-[11px] bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                    <span className="text-[#8BFF68] flex items-center gap-1 font-bold text-[11px] bg-[#8BFF68]/15 px-2.5 py-0.5 rounded-full border border-[#8BFF68]/30">
                       <CheckCircle2 className="w-3 h-3" /> Ready
                     </span>
                   )}
                   {file.status === "error" && (
-                    <span className="text-rose-600 flex items-center gap-1 font-medium text-[11px]">
+                    <span className="text-rose-400 flex items-center gap-1 font-bold text-[11px]">
                       <AlertCircle className="w-3 h-3" /> Error
                     </span>
                   )}
@@ -198,7 +196,7 @@ export function DocumentUploadPanel() {
                       e.stopPropagation();
                       removeFile(file.id);
                     }}
-                    className="text-slate-600 hover:text-slate-600 p-1 rounded hover:bg-slate-200 transition-colors"
+                    className="text-slate-400 hover:text-white p-1 rounded hover:bg-white/10 transition-colors"
                     aria-label={`Remove ${file.name}`}
                   >
                     <X className="w-3.5 h-3.5" />
@@ -212,43 +210,43 @@ export function DocumentUploadPanel() {
 
       {/* Available Next Steps after ingestion */}
       {hasSuccessfulFiles && (
-        <div className="mt-6 pt-6 border-t border-slate-200">
-          <p className="text-xs font-semibold uppercase tracking-wider text-slate-600 mb-3">
+        <div className="mt-6 pt-6 border-t border-white/10">
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
             Available AI Next Steps:
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
             <Link
               href="/dashboard/study"
-              className="flex items-center justify-center gap-2 p-3 rounded-xl bg-blue-50/70 hover:bg-blue-100/70 border border-blue-200 text-blue-700 text-xs font-semibold transition-all group"
+              className="flex items-center justify-center gap-2 p-3 rounded-xl bg-blue-600/20 hover:bg-[#8BFF68] hover:text-black border border-blue-500/30 text-white text-xs font-bold transition-all group"
             >
-              <Brain className="w-4 h-4 text-blue-600" />
+              <Brain className="w-4 h-4 text-[#8BFF68] group-hover:text-black" />
               <span>Mind Map</span>
               <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
             </Link>
 
             <Link
               href="/dashboard/study"
-              className="flex items-center justify-center gap-2 p-3 rounded-xl bg-indigo-50/70 hover:bg-indigo-100/70 border border-indigo-200 text-indigo-700 text-xs font-semibold transition-all group"
+              className="flex items-center justify-center gap-2 p-3 rounded-xl bg-blue-600/20 hover:bg-[#8BFF68] hover:text-black border border-blue-500/30 text-white text-xs font-bold transition-all group"
             >
-              <Layers className="w-4 h-4 text-indigo-600" />
+              <Layers className="w-4 h-4 text-[#8BFF68] group-hover:text-black" />
               <span>Flashcards</span>
               <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
             </Link>
 
             <Link
               href="/dashboard/study"
-              className="flex items-center justify-center gap-2 p-3 rounded-xl bg-violet-50/70 hover:bg-violet-100/70 border border-violet-200 text-violet-700 text-xs font-semibold transition-all group"
+              className="flex items-center justify-center gap-2 p-3 rounded-xl bg-blue-600/20 hover:bg-[#8BFF68] hover:text-black border border-blue-500/30 text-white text-xs font-bold transition-all group"
             >
-              <Sparkles className="w-4 h-4 text-violet-600" />
+              <Sparkles className="w-4 h-4 text-[#8BFF68] group-hover:text-black" />
               <span>Study Guide</span>
               <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
             </Link>
 
             <Link
               href="/dashboard/chat"
-              className="flex items-center justify-center gap-2 p-3 rounded-xl bg-emerald-50/70 hover:bg-emerald-100/70 border border-emerald-200 text-emerald-800 text-xs font-semibold transition-all group"
+              className="flex items-center justify-center gap-2 p-3 rounded-xl bg-blue-600/20 hover:bg-[#8BFF68] hover:text-black border border-blue-500/30 text-white text-xs font-bold transition-all group"
             >
-              <MessageSquare className="w-4 h-4 text-emerald-600" />
+              <MessageSquare className="w-4 h-4 text-[#8BFF68] group-hover:text-black" />
               <span>Ask Notes</span>
               <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
             </Link>

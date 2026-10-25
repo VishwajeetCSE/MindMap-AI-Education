@@ -175,6 +175,35 @@ body {
   box-shadow: 0 20px 50px -12px rgba(59, 130, 246, 0.15);
 }
 
+/* Neon #8BFF68 Utilities & Dark Cyber/SaaS Aesthetic */
+.neon-glow {
+  box-shadow: 0 0 25px rgba(139, 255, 104, 0.45);
+}
+
+.neon-glow-lg {
+  box-shadow: 0 0 45px rgba(139, 255, 104, 0.6);
+}
+
+.neon-btn {
+  background-color: #8bff68;
+  color: #050b14;
+  font-weight: 800;
+  box-shadow: 0 0 25px rgba(139, 255, 104, 0.45);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.neon-btn:hover {
+  background-color: #a0ff85;
+  box-shadow: 0 0 35px rgba(139, 255, 104, 0.7);
+  transform: translateY(-2px);
+}
+
+.neon-badge {
+  background-color: rgba(139, 255, 104, 0.12);
+  color: #8bff68;
+  border: 1px solid rgba(139, 255, 104, 0.4);
+}
+
 /* Reduced Motion Respect */
 @media (prefers-reduced-motion: reduce) {
   .animate-float-slow,

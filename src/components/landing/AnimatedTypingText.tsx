@@ -42,7 +42,7 @@ export function AnimatedTypingText() {
       if (displayText.length < currentPhrase.length) {
         timer = setTimeout(() => {
           setDisplayText(currentPhrase.slice(0, displayText.length + 1));
-        }, 45);
+        }, 40);
       } else {
         // Paused at full phrase
         timer = setTimeout(() => {
@@ -53,7 +53,7 @@ export function AnimatedTypingText() {
       if (displayText.length > 0) {
         timer = setTimeout(() => {
           setDisplayText(currentPhrase.slice(0, displayText.length - 1));
-        }, 25);
+        }, 20);
       } else {
         setIsDeleting(false);
         setPhraseIndex((prev) => (prev + 1) % phrases.length);
@@ -65,15 +65,15 @@ export function AnimatedTypingText() {
 
   return (
     <div
-      className="min-h-[2.5rem] sm:min-h-[3rem] flex items-center justify-center text-lg sm:text-2xl font-semibold text-blue-700 tracking-tight"
+      className="min-h-[4.5rem] sm:min-h-[5.5rem] md:min-h-[6.5rem] flex items-center justify-center text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-center px-4"
       aria-live="polite"
       aria-atomic="true"
     >
-      <span className="bg-gradient-to-r from-blue-700 via-indigo-700 to-violet-700 bg-clip-text text-transparent">
+      <span className="text-[#8BFF68] drop-shadow-[0_0_35px_rgba(139,255,104,0.55)]">
         {displayText}
       </span>
       <span
-        className="inline-block w-[3px] h-6 sm:h-7 ml-1 bg-gradient-to-b from-blue-600 to-violet-600 rounded-sm animate-cursor-blink"
+        className="inline-block w-1.5 sm:w-2 h-8 sm:h-12 md:h-14 ml-2.5 bg-[#8BFF68] rounded-full shadow-[0_0_20px_#8BFF68] animate-cursor-blink"
         aria-hidden="true"
       />
     </div>

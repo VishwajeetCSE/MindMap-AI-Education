@@ -9,7 +9,6 @@ import {
   Copy,
   Check,
   ArrowRight,
-  BookOpen,
   MessageSquare,
 } from "lucide-react";
 
@@ -75,25 +74,25 @@ export function AIChatPreview() {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto my-12 bg-white/95 backdrop-blur-xl border border-slate-200/90 rounded-2xl shadow-xl overflow-hidden">
+    <div className="w-full max-w-4xl mx-auto my-12 bg-[#090e24]/95 backdrop-blur-2xl border border-blue-500/30 rounded-3xl shadow-2xl overflow-hidden text-white">
       {/* Top Header */}
-      <div className="p-6 bg-slate-50/80 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="p-6 bg-[#0e1638] border-b border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-700 bg-emerald-100/70 px-2.5 py-0.5 rounded-full mb-1">
-            <MessageSquare className="w-3 h-3 text-emerald-600" />
+          <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#8BFF68] bg-[#8BFF68]/15 px-2.5 py-0.5 rounded-full mb-1 border border-[#8BFF68]/30">
+            <MessageSquare className="w-3 h-3 text-[#8BFF68]" />
             <span>Interactive Chat Sandbox</span>
           </div>
-          <h3 className="text-xl font-bold text-slate-900">
+          <h3 className="text-xl font-black text-white">
             Ask Questions Across Your Syllabus
           </h3>
-          <p className="text-xs text-slate-600 mt-0.5">
+          <p className="text-xs text-slate-300 mt-0.5">
             Gemini 1.5 Flash retrieves context from Appwrite VectorsDB and returns verified, cited answers.
           </p>
         </div>
 
         <Link
           href="/dashboard/chat"
-          className="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow-xs transition-colors shrink-0"
+          className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#8BFF68] hover:bg-[#a1ff84] text-black text-xs font-black uppercase rounded-xl shadow-[0_0_15px_rgba(139,255,104,0.4)] transition-all shrink-0"
         >
           <span>Open Full Chat Hub</span>
           <ArrowRight className="w-3.5 h-3.5" />
@@ -101,16 +100,16 @@ export function AIChatPreview() {
       </div>
 
       {/* Suggested Prompt Chips */}
-      <div className="px-6 py-3 bg-slate-100/60 border-b border-slate-200/70 flex items-center gap-2 overflow-x-auto text-xs">
-        <span className="text-slate-600 font-semibold shrink-0">Try prompt:</span>
+      <div className="px-6 py-3 bg-[#070b1a] border-b border-white/10 flex items-center gap-2 overflow-x-auto text-xs">
+        <span className="text-slate-400 font-bold shrink-0">Try prompt:</span>
         {presets.map((preset) => (
           <button
             key={preset.id}
             onClick={() => selectPreset(preset)}
-            className={`px-3 py-1.5 rounded-lg font-medium whitespace-nowrap transition-all border ${
+            className={`px-3 py-1.5 rounded-xl font-bold whitespace-nowrap transition-all border ${
               selectedPreset.id === preset.id
-                ? "bg-white text-blue-700 border-blue-300 shadow-xs font-bold"
-                : "bg-white/60 text-slate-600 border-slate-200 hover:bg-white"
+                ? "bg-[#8BFF68] text-black border-[#8BFF68] shadow-[0_0_10px_rgba(139,255,104,0.3)]"
+                : "bg-white/5 text-slate-300 border-white/10 hover:bg-white/10"
             }`}
           >
             {preset.label}
@@ -119,57 +118,57 @@ export function AIChatPreview() {
       </div>
 
       {/* Chat Messages Body */}
-      <div className="p-6 sm:p-8 space-y-5 bg-gradient-to-b from-slate-50/30 to-white min-h-[300px]">
+      <div className="p-6 sm:p-8 space-y-5 bg-gradient-to-b from-[#080d21] to-[#050817] min-h-[300px]">
         {/* User Bubble */}
         <div className="flex items-start justify-end gap-3">
-          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl rounded-tr-xs px-5 py-3 text-sm max-w-lg shadow-sm">
+          <div className="bg-[#1742e6] text-white rounded-2xl rounded-tr-xs px-5 py-3 text-sm max-w-lg shadow-md font-medium">
             {selectedPreset.question}
           </div>
         </div>
 
         {/* AI Answer Bubble */}
         <div className="flex items-start gap-3">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-600 to-violet-600 flex items-center justify-center text-white shrink-0 shadow-md">
-            <Brain className="w-4 h-4" />
+          <div className="w-8 h-8 rounded-xl bg-[#8BFF68] text-black flex items-center justify-center shrink-0 shadow-[0_0_15px_#8BFF68] font-bold">
+            <Brain className="w-4 h-4 text-black" />
           </div>
 
-          <div className="bg-white border border-slate-200 rounded-2xl rounded-tl-xs p-5 shadow-sm text-slate-800 text-sm max-w-2xl relative space-y-3">
+          <div className="bg-[#0e1638] border border-blue-500/30 rounded-2xl rounded-tl-xs p-5 shadow-lg text-white text-sm max-w-2xl relative space-y-3">
             {isTyping ? (
-              <div className="flex items-center gap-2 py-4 text-xs text-blue-600 font-medium">
+              <div className="flex items-center gap-2 py-4 text-xs text-[#8BFF68] font-bold">
                 <span className="typing-dot" />
                 <span className="typing-dot" />
                 <span className="typing-dot" />
-                <span className="ml-2 text-slate-600">Retrieving syllabus chunks from Appwrite...</span>
+                <span className="ml-2 text-slate-400">Retrieving syllabus chunks from Appwrite...</span>
               </div>
             ) : (
               <>
-                <p className="leading-relaxed text-slate-700">
+                <p className="leading-relaxed text-slate-200">
                   {selectedPreset.answer}
                 </p>
 
                 {/* Citation Card Footer */}
-                <div className="pt-3 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div className="pt-3 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <div className="flex items-center gap-2 text-xs">
-                    <span className="p-1 bg-blue-50 text-blue-700 rounded border border-blue-200 font-mono text-[11px] font-semibold">
+                    <span className="p-1 bg-[#8BFF68]/15 text-[#8BFF68] rounded border border-[#8BFF68]/30 font-mono text-[11px] font-bold">
                       [{selectedPreset.citation}]
                     </span>
-                    <span className="text-[11px] text-emerald-600 font-medium flex items-center gap-1">
+                    <span className="text-[11px] text-[#8BFF68] font-bold flex items-center gap-1">
                       <Sparkles className="w-3 h-3" /> Grounded In Source
                     </span>
                   </div>
 
                   <button
                     onClick={handleCopy}
-                    className="inline-flex items-center gap-1 text-xs text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-md transition-colors"
+                    className="inline-flex items-center gap-1 text-xs text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 px-2.5 py-1 rounded-md border border-white/10 transition-colors"
                   >
                     {copied ? (
                       <>
-                        <Check className="w-3 h-3 text-emerald-600" />
-                        <span className="text-emerald-700 font-medium">Copied!</span>
+                        <Check className="w-3 h-3 text-[#8BFF68]" />
+                        <span className="text-[#8BFF68] font-bold">Copied!</span>
                       </>
                     ) : (
                       <>
-                        <Copy className="w-3 h-3 text-slate-600" />
+                        <Copy className="w-3 h-3 text-slate-300" />
                         <span>Copy Answer</span>
                       </>
                     )}
@@ -182,13 +181,13 @@ export function AIChatPreview() {
       </div>
 
       {/* Simulated Input Field */}
-      <div className="p-4 bg-slate-50 border-t border-slate-200 flex items-center gap-2">
+      <div className="p-4 bg-[#070b1a] border-t border-white/10 flex items-center gap-2">
         <input
           type="text"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           placeholder="Ask a question about your uploaded documents or choose a prompt above..."
-          className="flex-1 bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-slate-800 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+          className="flex-1 bg-[#0e1638] border border-blue-500/30 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#8BFF68]/40"
           onKeyDown={(e) => {
             if (e.key === "Enter" && inputValue.trim()) {
               setIsTyping(true);
@@ -201,10 +200,10 @@ export function AIChatPreview() {
         />
         <Link
           href="/dashboard/chat"
-          className="p-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-xs transition-colors shrink-0"
+          className="p-2.5 bg-[#8BFF68] hover:bg-[#a1ff84] text-black rounded-xl shadow-[0_0_15px_rgba(139,255,104,0.4)] transition-all shrink-0 font-bold"
           aria-label="Send query to live chat"
         >
-          <Send className="w-4 h-4" />
+          <Send className="w-4 h-4 text-black" />
         </Link>
       </div>
     </div>

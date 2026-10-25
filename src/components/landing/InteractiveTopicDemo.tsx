@@ -125,18 +125,18 @@ export function InteractiveTopicDemo() {
   const topic = sampleTopics.find((t) => t.id === selectedTopicId) || sampleTopics[0];
 
   return (
-    <div className="w-full max-w-5xl mx-auto my-12 bg-white/95 backdrop-blur-xl border border-slate-200/90 rounded-2xl shadow-xl overflow-hidden">
+    <div className="w-full max-w-5xl mx-auto my-12 bg-[#090e24]/95 backdrop-blur-2xl border border-blue-500/30 rounded-3xl shadow-2xl overflow-hidden text-white">
       {/* Header with Topic Switcher */}
-      <div className="p-6 bg-gradient-to-r from-blue-50/80 via-indigo-50/50 to-slate-50 border-b border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="p-6 bg-[#0e1638] border-b border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-700 bg-blue-100/70 px-2.5 py-0.5 rounded-full mb-1">
-            <Sparkles className="w-3 h-3 text-blue-600" />
+          <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#8BFF68] bg-[#8BFF68]/15 px-2.5 py-0.5 rounded-full mb-1 border border-[#8BFF68]/30">
+            <Sparkles className="w-3 h-3 text-[#8BFF68]" />
             <span>Interactive Demo Sandbox</span>
           </div>
-          <h3 className="text-xl font-bold text-slate-900">
+          <h3 className="text-xl font-black text-white">
             Explore Without Signing In
           </h3>
-          <p className="text-xs text-slate-600 mt-0.5">
+          <p className="text-xs text-slate-300 mt-0.5">
             Select a syllabus topic below to experience instant mind maps, flashcards, and cited chat.
           </p>
         </div>
@@ -150,10 +150,10 @@ export function InteractiveTopicDemo() {
                 setSelectedTopicId(t.id);
                 setIsFlipped(false);
               }}
-              className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all border ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all border ${
                 selectedTopicId === t.id
-                  ? "bg-blue-600 text-white border-blue-600 shadow-sm"
-                  : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
+                  ? "bg-[#8BFF68] text-black border-[#8BFF68] shadow-[0_0_15px_rgba(139,255,104,0.4)]"
+                  : "bg-white/5 text-slate-300 border-white/10 hover:bg-white/10"
               }`}
             >
               {t.name}
@@ -163,16 +163,16 @@ export function InteractiveTopicDemo() {
       </div>
 
       {/* Secondary Navigation for Sub-Features */}
-      <div className="px-6 py-3 bg-slate-100/60 border-b border-slate-200/80 flex items-center gap-2 overflow-x-auto text-xs font-medium">
+      <div className="px-6 py-3 bg-[#070b1a] border-b border-white/10 flex items-center gap-2 overflow-x-auto text-xs font-medium">
         <button
           onClick={() => setActiveTab("mindmap")}
           className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${
             activeTab === "mindmap"
-              ? "bg-white text-blue-700 font-bold shadow-xs border border-slate-200"
-              : "text-slate-600 hover:text-slate-900"
+              ? "bg-[#8BFF68] text-black font-extrabold shadow-[0_0_10px_rgba(139,255,104,0.3)]"
+              : "text-slate-300 hover:text-white"
           }`}
         >
-          <Brain className="w-3.5 h-3.5 text-blue-600" />
+          <Brain className="w-3.5 h-3.5" />
           <span>Visual Mind Map</span>
         </button>
 
@@ -180,11 +180,11 @@ export function InteractiveTopicDemo() {
           onClick={() => setActiveTab("flashcard")}
           className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${
             activeTab === "flashcard"
-              ? "bg-white text-blue-700 font-bold shadow-xs border border-slate-200"
-              : "text-slate-600 hover:text-slate-900"
+              ? "bg-[#8BFF68] text-black font-extrabold shadow-[0_0_10px_rgba(139,255,104,0.3)]"
+              : "text-slate-300 hover:text-white"
           }`}
         >
-          <Layers className="w-3.5 h-3.5 text-indigo-600" />
+          <Layers className="w-3.5 h-3.5" />
           <span>Active Recall Flashcard</span>
         </button>
 
@@ -192,11 +192,11 @@ export function InteractiveTopicDemo() {
           onClick={() => setActiveTab("guide")}
           className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${
             activeTab === "guide"
-              ? "bg-white text-blue-700 font-bold shadow-xs border border-slate-200"
-              : "text-slate-600 hover:text-slate-900"
+              ? "bg-[#8BFF68] text-black font-extrabold shadow-[0_0_10px_rgba(139,255,104,0.3)]"
+              : "text-slate-300 hover:text-white"
           }`}
         >
-          <GraduationCap className="w-3.5 h-3.5 text-violet-600" />
+          <GraduationCap className="w-3.5 h-3.5" />
           <span>High-Yield Summary</span>
         </button>
 
@@ -204,11 +204,11 @@ export function InteractiveTopicDemo() {
           onClick={() => setActiveTab("chat")}
           className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${
             activeTab === "chat"
-              ? "bg-white text-blue-700 font-bold shadow-xs border border-slate-200"
-              : "text-slate-600 hover:text-slate-900"
+              ? "bg-[#8BFF68] text-black font-extrabold shadow-[0_0_10px_rgba(139,255,104,0.3)]"
+              : "text-slate-300 hover:text-white"
           }`}
         >
-          <MessageSquare className="w-3.5 h-3.5 text-emerald-600" />
+          <MessageSquare className="w-3.5 h-3.5" />
           <span>Context-Aware Chat</span>
         </button>
       </div>
@@ -220,12 +220,12 @@ export function InteractiveTopicDemo() {
           <div>
             <div className="mb-4 flex items-center justify-between">
               <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-blue-600">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#8BFF68]">
                   Concept Hierarchy Graph
                 </span>
-                <h4 className="text-base font-bold text-slate-900">{topic.name}</h4>
+                <h4 className="text-base font-bold text-white">{topic.name}</h4>
               </div>
-              <span className="text-xs bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded font-medium">
+              <span className="text-xs bg-[#8BFF68]/15 text-[#8BFF68] border border-[#8BFF68]/30 px-2 py-0.5 rounded-full font-bold">
                 Synthesized by Gemini 1.5 Flash
               </span>
             </div>
@@ -234,15 +234,15 @@ export function InteractiveTopicDemo() {
               {topic.mindMapNodes.map((node, i) => (
                 <div
                   key={node.title}
-                  className="p-4 bg-slate-50 border border-slate-200 rounded-xl hover:border-blue-300 transition-all shadow-xs"
+                  className="p-4 bg-[#0e1638] border border-blue-500/20 rounded-2xl hover:border-[#8BFF68]/60 transition-all shadow-md group"
                 >
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-blue-700 mb-1">
-                    <span className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center text-[11px]">
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-[#8BFF68] mb-1">
+                    <span className="w-5 h-5 rounded-full bg-[#8BFF68] text-black flex items-center justify-center text-[11px] font-black">
                       {i + 1}
                     </span>
                     <span>{node.title}</span>
                   </div>
-                  <p className="text-xs text-slate-600 leading-relaxed">{node.desc}</p>
+                  <p className="text-xs text-slate-300 leading-relaxed">{node.desc}</p>
                 </div>
               ))}
             </div>
@@ -262,43 +262,43 @@ export function InteractiveTopicDemo() {
                 }`}
               >
                 {/* Front */}
-                <div className="absolute inset-0 backface-hidden bg-gradient-to-br from-indigo-900 to-slate-950 text-white p-6 rounded-2xl border border-indigo-500/30 shadow-lg flex flex-col justify-between">
+                <div className="absolute inset-0 backface-hidden bg-gradient-to-br from-[#121c45] to-[#070b1a] text-white p-6 rounded-2xl border border-blue-400/40 shadow-xl flex flex-col justify-between">
                   <div>
-                    <div className="flex items-center justify-between text-xs text-indigo-300 mb-2">
-                      <span>Concept Flashcard</span>
-                      <span className="flex items-center gap-1 text-slate-400">
-                        <RotateCw className="w-3 h-3" /> Click to Flip
+                    <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
+                      <span className="text-[#8BFF68] font-bold">Concept Flashcard</span>
+                      <span className="flex items-center gap-1 text-slate-300">
+                        <RotateCw className="w-3 h-3 text-[#8BFF68]" /> Click to Flip
                       </span>
                     </div>
-                    <p className="text-sm sm:text-base font-semibold leading-relaxed mt-2">
+                    <p className="text-sm sm:text-base font-bold leading-relaxed mt-2 text-white">
                       {topic.flashcard.question}
                     </p>
                   </div>
-                  <div className="text-xs text-indigo-300 font-medium pt-2 border-t border-indigo-800">
+                  <div className="text-xs text-[#8BFF68] font-bold pt-2 border-t border-white/10">
                     Topic: {topic.name}
                   </div>
                 </div>
 
                 {/* Back */}
-                <div className="absolute inset-0 backface-hidden rotate-y-180 bg-white text-slate-900 p-6 rounded-2xl border border-emerald-300 shadow-lg flex flex-col justify-between">
+                <div className="absolute inset-0 backface-hidden rotate-y-180 bg-[#0e1638] text-white p-6 rounded-2xl border border-[#8BFF68] shadow-2xl flex flex-col justify-between">
                   <div>
-                    <div className="flex items-center justify-between text-xs text-emerald-700 font-bold mb-2">
+                    <div className="flex items-center justify-between text-xs text-[#8BFF68] font-bold mb-2">
                       <span className="flex items-center gap-1">
-                        <CheckCircle2 className="w-3.5 h-3.5" /> Answer Explanation
+                        <CheckCircle2 className="w-3.5 h-3.5 text-[#8BFF68]" /> Answer Explanation
                       </span>
-                      <span className="text-slate-600">Click to Flip Back</span>
+                      <span className="text-slate-400">Click to Flip Back</span>
                     </div>
-                    <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                    <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
                       {topic.flashcard.answer}
                     </p>
                   </div>
-                  <div className="text-xs text-emerald-600 font-medium pt-2 border-t border-slate-100">
+                  <div className="text-xs text-[#8BFF68] font-bold pt-2 border-t border-white/10">
                     Active Recall Mastery
                   </div>
                 </div>
               </div>
             </div>
-            <p className="text-center text-xs text-slate-600 mt-3">
+            <p className="text-center text-xs text-slate-400 mt-3">
               Click the card or press Enter to test your knowledge
             </p>
           </div>
@@ -307,17 +307,17 @@ export function InteractiveTopicDemo() {
         {/* SUB-VIEW 3: SUMMARY */}
         {activeTab === "guide" && (
           <div className="space-y-3 max-w-2xl mx-auto">
-            <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <GraduationCap className="w-4 h-4 text-violet-600" />
+            <h4 className="text-sm font-bold text-white flex items-center gap-2">
+              <GraduationCap className="w-4 h-4 text-[#8BFF68]" />
               High-Yield Exam Prep Takeaways
             </h4>
             <div className="space-y-2">
               {topic.studySummary.map((item, idx) => (
                 <div
                   key={idx}
-                  className="p-3 bg-violet-50/50 border border-violet-100 rounded-xl text-xs text-slate-700 flex items-start gap-2.5"
+                  className="p-3.5 bg-[#0e1638] border border-blue-500/20 rounded-xl text-xs text-slate-200 flex items-start gap-2.5"
                 >
-                  <span className="w-4 h-4 rounded-full bg-violet-200 text-violet-800 text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">
+                  <span className="w-4 h-4 rounded-full bg-[#8BFF68] text-black text-[10px] font-black flex items-center justify-center shrink-0 mt-0.5">
                     {idx + 1}
                   </span>
                   <span className="leading-relaxed">{item}</span>
@@ -331,17 +331,17 @@ export function InteractiveTopicDemo() {
         {activeTab === "chat" && (
           <div className="max-w-xl mx-auto space-y-3">
             <div className="flex justify-end">
-              <div className="bg-blue-600 text-white rounded-2xl rounded-tr-xs px-4 py-2 text-xs sm:text-sm max-w-sm">
+              <div className="bg-[#1742e6] text-white rounded-2xl rounded-tr-xs px-4 py-2.5 text-xs sm:text-sm max-w-sm font-medium">
                 {topic.sampleChat.question}
               </div>
             </div>
-            <div className="bg-slate-50 border border-slate-200 rounded-2xl rounded-tl-xs p-4 text-xs sm:text-sm text-slate-800 space-y-2">
-              <p className="leading-relaxed">{topic.sampleChat.answer}</p>
-              <div className="pt-2 border-t border-slate-200 flex items-center gap-2">
-                <span className="text-[11px] bg-blue-100 text-blue-800 font-mono px-2 py-0.5 rounded">
+            <div className="bg-[#0e1638] border border-blue-500/30 rounded-2xl rounded-tl-xs p-4 text-xs sm:text-sm text-white space-y-2">
+              <p className="leading-relaxed text-slate-200">{topic.sampleChat.answer}</p>
+              <div className="pt-2 border-t border-white/10 flex items-center gap-2">
+                <span className="text-[11px] bg-[#8BFF68]/15 text-[#8BFF68] font-mono px-2 py-0.5 rounded font-bold border border-[#8BFF68]/30">
                   {topic.sampleChat.citation}
                 </span>
-                <span className="text-[11px] text-emerald-600 font-medium">✓ Verified Source</span>
+                <span className="text-[11px] text-[#8BFF68] font-bold">✓ Verified Source</span>
               </div>
             </div>
           </div>
@@ -349,13 +349,13 @@ export function InteractiveTopicDemo() {
       </div>
 
       {/* Footer CTA */}
-      <div className="px-6 py-4 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-        <span className="text-slate-600">
+      <div className="px-6 py-4 bg-[#070b1a] border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+        <span className="text-slate-300">
           Want to upload your own custom textbook or slides?
         </span>
         <Link
           href="/auth/login"
-          className="inline-flex items-center gap-1.5 font-bold text-blue-600 hover:text-blue-700 transition-colors"
+          className="inline-flex items-center gap-1.5 font-black text-[#8BFF68] hover:underline transition-all"
         >
           Launch Free Guest Demo Session
           <ArrowRight className="w-3.5 h-3.5" />
