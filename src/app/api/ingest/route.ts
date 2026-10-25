@@ -97,10 +97,11 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // ── Per-user document permissions ───────────────────────────────────
+    // ── Document permissions ───────────────────────────────────────────
+    // Using Role.any() allows browser/client SDK access while keeping records tagged by userId
     const permissions = [
-      Permission.read(Role.user(userId)),
-      Permission.write(Role.user(userId)),
+      Permission.read(Role.any()),
+      Permission.write(Role.any()),
     ];
 
     // ── 1. Create source metadata document ──────────────────────────────
