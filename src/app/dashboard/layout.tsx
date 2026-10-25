@@ -19,6 +19,7 @@ import {
   LayoutDashboard,
   MessageSquare,
   FileText,
+  GraduationCap,
   LogOut,
   Menu,
   X,
@@ -29,8 +30,9 @@ import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/dashboard/study", label: "Study Hub", icon: GraduationCap },
   { href: "/dashboard/chat", label: "AI Chat", icon: MessageSquare },
-  { href: "/dashboard/sources", label: "Sources", icon: FileText },
+  { href: "/dashboard/sources", label: "Course Notes", icon: FileText },
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
