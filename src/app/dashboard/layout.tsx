@@ -27,6 +27,7 @@ import {
   User,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { FloatingDecorElements } from "@/components/landing/FloatingDecorElements";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -183,6 +184,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
       {/* Main content */}
       <main className="relative flex-1 min-w-0 flex flex-col bg-zinc-950 overflow-hidden">
+        {/* 3D Background Image Layer for all dashboard pages */}
+        <div
+          className="absolute inset-0 pointer-events-none opacity-[0.22] bg-cover bg-center -z-10 mix-blend-screen"
+          style={{ backgroundImage: "url('/dark-bg.jpg')" }}
+        />
+        <FloatingDecorElements variant="dark" />
+
         {/* Subtle ambient glow backdrop */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-indigo-500/[0.04] rounded-full blur-3xl glow-pulse" />

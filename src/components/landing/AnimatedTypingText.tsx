@@ -17,7 +17,6 @@ export function AnimatedTypingText() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   useEffect(() => {
-    // Check user preference for reduced motion
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     setPrefersReducedMotion(mediaQuery.matches);
 
@@ -44,7 +43,6 @@ export function AnimatedTypingText() {
           setDisplayText(currentPhrase.slice(0, displayText.length + 1));
         }, 40);
       } else {
-        // Paused at full phrase
         timer = setTimeout(() => {
           setIsDeleting(true);
         }, 2200);
@@ -65,15 +63,15 @@ export function AnimatedTypingText() {
 
   return (
     <div
-      className="min-h-[4.5rem] sm:min-h-[5.5rem] md:min-h-[6.5rem] flex items-center justify-center text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-center px-4"
+      className="min-h-[3.5rem] sm:min-h-[4.5rem] md:min-h-[5.5rem] flex items-center justify-center text-2xl sm:text-4xl md:text-5xl lg:text-5xl font-black tracking-tight text-center px-4"
       aria-live="polite"
       aria-atomic="true"
     >
-      <span className="text-[#8BFF68] drop-shadow-[0_0_35px_rgba(139,255,104,0.55)]">
+      <span className="text-[#059669] sm:text-[#10b981] drop-shadow-[0_2px_12px_rgba(16,185,129,0.35)]">
         {displayText}
       </span>
       <span
-        className="inline-block w-1.5 sm:w-2 h-8 sm:h-12 md:h-14 ml-2.5 bg-[#8BFF68] rounded-full shadow-[0_0_20px_#8BFF68] animate-cursor-blink"
+        className="inline-block w-1 sm:w-1.5 h-7 sm:h-10 md:h-12 ml-2 bg-[#10b981] rounded-full shadow-[0_0_12px_#10b981] animate-cursor-blink"
         aria-hidden="true"
       />
     </div>

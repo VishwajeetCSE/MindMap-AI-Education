@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { Brain, Loader2 } from "lucide-react";
+import { FloatingDecorElements } from "@/components/landing/FloatingDecorElements";
 
 export default function RegisterPage() {
   const [name, setName] = useState("");
@@ -45,7 +46,14 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-950 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-zinc-950 flex items-center justify-center px-4 relative overflow-hidden">
+      {/* 3D Background Image Layer */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.25] bg-cover bg-center -z-10 mix-blend-screen"
+        style={{ backgroundImage: "url('/dark-bg.jpg')" }}
+      />
+      <FloatingDecorElements variant="dark" />
+
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/3 w-96 h-96 bg-indigo-500/5 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 right-1/3 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl" />

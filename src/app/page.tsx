@@ -27,6 +27,7 @@ import { LearningTransformation } from "@/components/landing/LearningTransformat
 import { AIChatPreview } from "@/components/landing/AIChatPreview";
 import { HowItWorks } from "@/components/landing/HowItWorks";
 import { TrustPrivacySection } from "@/components/landing/TrustPrivacySection";
+import { FloatingDecorElements } from "@/components/landing/FloatingDecorElements";
 
 export default function LandingPage() {
   const { isAuthenticated, loading } = useAuth();
@@ -101,54 +102,50 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#050a18] text-white relative selection:bg-[#8BFF68]/30 selection:text-white overflow-hidden">
-      {/* Dark decorative background elements */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
-        <div className="absolute -top-32 -left-32 w-[500px] h-[500px] bg-blue-600/8 rounded-full blur-3xl" />
-        <div className="absolute top-1/4 -right-32 w-[500px] h-[500px] bg-[#8BFF68]/5 rounded-full blur-3xl" />
-        <div className="absolute top-2/3 left-1/3 w-[600px] h-[600px] bg-indigo-600/6 rounded-full blur-3xl" />
-        {/* Dot grid pattern */}
-        <div
-          className="absolute inset-0 opacity-[0.04]"
-          style={{
-            backgroundImage: "radial-gradient(#8BFF68 1px, transparent 1px)",
-            backgroundSize: "32px 32px",
-          }}
-        />
-      </div>
+    <div className="min-h-screen bg-[#f3f9f7] text-slate-900 relative selection:bg-emerald-100 selection:text-emerald-900 overflow-x-hidden">
+      {/* 3D Hero Background Image Layer */}
+      <div
+        className="absolute top-0 left-0 right-0 h-[920px] bg-cover bg-center -z-20 pointer-events-none opacity-90"
+        style={{ backgroundImage: "url('/hero-bg.jpg')" }}
+      />
+      {/* Soft gradient wash overlay */}
+      <div className="absolute top-0 left-0 right-0 h-[920px] bg-gradient-to-b from-[#eaf6f2]/60 via-[#f3f9f7]/70 to-[#f3f9f7] -z-10 pointer-events-none" />
 
-      {/* Sticky Dark Navbar */}
-      <header className="sticky top-0 z-50 bg-[#050a18]/90 backdrop-blur-xl border-b border-white/10 transition-all">
-        <div className="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="p-2 bg-[#8BFF68] rounded-xl text-black shadow-[0_0_20px_rgba(139,255,104,0.4)] group-hover:scale-110 transition-transform">
+      {/* Floating 3D CSS Elements (glass spheres, rings, crystals) */}
+      <FloatingDecorElements variant="hero" />
+
+      {/* Top Floating Pill-Shaped Navbar (Inspired by Reference Image) */}
+      <div className="sticky top-4 z-50 px-4 sm:px-6 max-w-7xl mx-auto">
+        <header className="bg-white/85 backdrop-blur-xl border border-slate-200/80 rounded-full shadow-lg shadow-emerald-950/5 px-6 py-3 flex items-center justify-between transition-all">
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <div className="p-2 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-xl text-white shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform">
               <Brain className="w-5 h-5" />
             </div>
-            <div>
-              <span className="text-lg font-black tracking-tight text-white group-hover:text-[#8BFF68] transition-colors">
+            <div className="flex items-center">
+              <span className="text-base sm:text-lg font-black tracking-tight text-slate-900 group-hover:text-blue-600 transition-colors">
                 MindMap AI
               </span>
-              <span className="ml-2 text-[11px] px-2 py-0.5 rounded-full bg-[#8BFF68]/15 text-[#8BFF68] border border-[#8BFF68]/30 font-bold uppercase tracking-wider">
+              <span className="ml-2 text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200 font-bold uppercase tracking-wider">
                 Edu Edition
               </span>
             </div>
           </Link>
 
           {/* Nav links */}
-          <nav className="hidden md:flex items-center gap-6 text-xs font-semibold text-slate-400">
-            <a href="#features" className="hover:text-[#8BFF68] transition-colors">
+          <nav className="hidden lg:flex items-center gap-7 text-xs font-semibold text-slate-600">
+            <a href="#features" className="hover:text-emerald-600 transition-colors">
               Features
             </a>
-            <a href="#preview" className="hover:text-[#8BFF68] transition-colors">
+            <a href="#preview" className="hover:text-emerald-600 transition-colors">
               Studio Preview
             </a>
-            <a href="#demo" className="hover:text-[#8BFF68] transition-colors">
+            <a href="#demo" className="hover:text-emerald-600 transition-colors">
               Interactive Demo
             </a>
-            <a href="#workflow" className="hover:text-[#8BFF68] transition-colors">
+            <a href="#workflow" className="hover:text-emerald-600 transition-colors">
               How It Works
             </a>
-            <a href="#upload" className="hover:text-[#8BFF68] transition-colors">
+            <a href="#upload" className="hover:text-emerald-600 transition-colors">
               Ingest Notes
             </a>
           </nav>
@@ -158,7 +155,7 @@ export default function LandingPage() {
             {!loading && (
               isAuthenticated ? (
                 <Link href="/dashboard">
-                  <Button className="bg-[#8BFF68] hover:bg-[#a1ff84] text-black font-black text-xs px-4 py-2 rounded-xl shadow-[0_0_20px_rgba(139,255,104,0.4)]">
+                  <Button className="bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-bold text-xs px-5 py-2.5 rounded-full shadow-md shadow-blue-600/20">
                     Dashboard
                     <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
                   </Button>
@@ -168,13 +165,13 @@ export default function LandingPage() {
                   <Link href="/auth/login">
                     <Button
                       variant="ghost"
-                      className="text-xs font-semibold text-slate-300 hover:text-white hover:bg-white/10 px-3 py-1.5 rounded-lg"
+                      className="text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 px-3.5 py-1.5 rounded-full"
                     >
                       Sign In
                     </Button>
                   </Link>
                   <Link href="/auth/login">
-                    <Button className="bg-[#8BFF68] hover:bg-[#a1ff84] text-black text-xs font-black px-4 py-2 rounded-xl shadow-[0_0_20px_rgba(139,255,104,0.4)]">
+                    <Button className="bg-[#2563eb] hover:bg-[#1d4ed8] text-white text-xs font-bold px-5 py-2.5 rounded-full shadow-md shadow-blue-600/25 transition-all hover:shadow-blue-600/40">
                       1-Click Guest Demo
                     </Button>
                   </Link>
@@ -182,44 +179,44 @@ export default function LandingPage() {
               )
             )}
           </div>
-        </div>
-      </header>
+        </header>
+      </div>
 
       {/* Hero Section */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 pt-16 sm:pt-24 pb-12 text-center">
-        {/* Hackathon Badge */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#8BFF68]/10 border border-[#8BFF68]/30 rounded-full mb-6 shadow-[0_0_15px_rgba(139,255,104,0.15)]">
-          <Sparkles className="w-3.5 h-3.5 text-[#8BFF68]" />
-          <span className="text-xs font-bold text-[#8BFF68]">
+      <section className="relative z-10 max-w-7xl mx-auto px-6 pt-12 sm:pt-16 pb-12 text-center">
+        {/* Hackathon Badge Pill */}
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/80 backdrop-blur-md border border-blue-200/90 rounded-full mb-6 shadow-xs">
+          <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+          <span className="text-xs font-semibold text-blue-900">
             Education Hackathon • Powered by Google Gemini 1.5 Flash &amp; Appwrite VectorsDB
           </span>
         </div>
 
         {/* Static Main Heading */}
-        <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tight leading-[1.05] mb-4">
+        <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-7xl font-black text-slate-900 tracking-tight leading-[1.08] mb-3">
           The AI Second Brain <br />
-          <span className="text-[#8BFF68] drop-shadow-[0_0_40px_rgba(139,255,104,0.5)]">
+          <span className="bg-gradient-to-r from-[#0d9488] via-[#059669] to-[#10b981] bg-clip-text text-transparent">
             For Modern Education
           </span>
         </h1>
 
-        {/* Animated Rotating Typing Text (Now BIG & BOLD) */}
-        <div className="mb-6">
+        {/* Animated Rotating Typing Text Line */}
+        <div className="mb-5">
           <AnimatedTypingText />
         </div>
 
-        {/* Description */}
-        <p className="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto mb-8 leading-relaxed">
+        {/* Subtitle */}
+        <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto mb-8 leading-relaxed font-normal">
           Transform unstructured lecture notes, textbooks, and syllabus outlines into
           interactive visual mind maps, 3D active-recall flashcards, and citation-backed AI conversations.
         </p>
 
-        {/* Hero CTAs */}
+        {/* Hero CTAs matching Reference Image */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 mb-14">
           <Link href={isAuthenticated ? "/dashboard" : "/auth/login"} className="w-full sm:w-auto">
             <Button
               size="lg"
-              className="bg-[#8BFF68] hover:bg-[#a1ff84] text-black text-sm font-black px-8 py-6 rounded-xl shadow-[0_0_30px_rgba(139,255,104,0.5)] transition-all hover:shadow-[0_0_45px_rgba(139,255,104,0.7)] w-full sm:w-auto uppercase tracking-wide"
+              className="bg-[#059669] hover:bg-[#047857] text-white text-sm font-bold px-8 py-6 rounded-full shadow-lg shadow-emerald-600/25 transition-all hover:shadow-emerald-600/40 w-full sm:w-auto"
             >
               Explore Interactive Demo
               <ArrowRight className="w-4 h-4 ml-2" />
@@ -229,9 +226,9 @@ export default function LandingPage() {
             <Button
               size="lg"
               variant="outline"
-              className="border-white/20 hover:bg-white/10 hover:border-[#8BFF68]/50 text-white text-sm font-semibold px-8 py-6 rounded-xl w-full sm:w-auto"
+              className="bg-white/90 hover:bg-white text-slate-700 border-slate-300 text-sm font-semibold px-8 py-6 rounded-full w-full sm:w-auto shadow-sm"
             >
-              <GraduationCap className="w-4 h-4 mr-2 text-[#8BFF68]" />
+              <GraduationCap className="w-4 h-4 mr-2 text-blue-600" />
               Open Study Hub
             </Button>
           </Link>
@@ -246,14 +243,14 @@ export default function LandingPage() {
       {/* Feature Cards Showcase (3D Flip Cards) */}
       <section id="features" className="relative z-10 max-w-7xl mx-auto px-6 py-16">
         <div className="text-center max-w-xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#8BFF68]/15 text-[#8BFF68] rounded-full text-xs font-bold mb-3 border border-[#8BFF68]/30">
-            <Brain className="w-3.5 h-3.5 text-[#8BFF68]" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-800 rounded-full text-xs font-semibold mb-3 border border-emerald-200">
+            <Brain className="w-3.5 h-3.5 text-emerald-600" />
             <span>Interactive Feature Engine</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-black text-white tracking-tight">
-            Designed for <span className="text-[#8BFF68] drop-shadow-[0_0_20px_rgba(139,255,104,0.4)]">Deeper Retention</span>
+          <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">
+            Designed for <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Deeper Retention</span>
           </h2>
-          <p className="text-xs sm:text-sm text-slate-400 mt-2">
+          <p className="text-xs sm:text-sm text-slate-600 mt-2">
             Hover or tap each card to flip and discover the underlying AI reasoning and study mechanics.
           </p>
         </div>
@@ -297,20 +294,19 @@ export default function LandingPage() {
 
       {/* Final Call to Action Banner */}
       <section className="relative z-10 max-w-5xl mx-auto px-6 py-16 text-center">
-        <div className="bg-gradient-to-r from-[#0e1638] via-[#121c45] to-[#0e1638] border-2 border-[#8BFF68]/50 text-white rounded-3xl p-8 sm:p-14 shadow-[0_0_50px_rgba(139,255,104,0.1)] relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-[#8BFF68]/8 rounded-full blur-3xl pointer-events-none" />
+        <div className="bg-gradient-to-r from-emerald-700 via-teal-700 to-blue-700 text-white rounded-3xl p-8 sm:p-14 shadow-2xl relative overflow-hidden">
           <div className="max-w-2xl mx-auto space-y-4 relative z-10">
             <h3 className="text-2xl sm:text-4xl font-black tracking-tight text-white">
               Ready to Upgrade Your Academic Workflow?
             </h3>
-            <p className="text-xs sm:text-sm text-slate-300 max-w-lg mx-auto leading-relaxed">
+            <p className="text-xs sm:text-sm text-emerald-100 max-w-lg mx-auto leading-relaxed">
               Experience the power of Google Gemini 1.5 Flash and Appwrite VectorsDB in a zero-friction guest demo environment.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
               <Link href="/auth/login" className="w-full sm:w-auto">
                 <Button
                   size="lg"
-                  className="bg-[#8BFF68] hover:bg-[#a1ff84] text-black font-black text-sm px-8 py-6 rounded-xl shadow-[0_0_30px_rgba(139,255,104,0.5)] w-full sm:w-auto uppercase tracking-wide"
+                  className="bg-white hover:bg-slate-100 text-emerald-800 font-black text-sm px-8 py-6 rounded-full shadow-lg w-full sm:w-auto"
                 >
                   Start 1-Click Guest Demo
                   <ArrowRight className="w-4 h-4 ml-2" />
@@ -320,9 +316,9 @@ export default function LandingPage() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="border-white/20 hover:bg-white/10 hover:border-[#8BFF68]/50 text-white text-sm font-semibold px-8 py-6 rounded-xl w-full sm:w-auto"
+                  className="border-white/30 hover:bg-white/10 text-white text-sm font-semibold px-8 py-6 rounded-full w-full sm:w-auto"
                 >
-                  <GraduationCap className="w-4 h-4 mr-2 text-[#8BFF68]" />
+                  <GraduationCap className="w-4 h-4 mr-2" />
                   Explore Study Workspace
                 </Button>
               </Link>
@@ -331,47 +327,47 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Dark Modern Footer */}
-      <footer className="relative z-10 border-t border-white/10 bg-[#030710] py-12">
+      {/* Modern SaaS Footer */}
+      <footer className="relative z-10 border-t border-slate-200/90 bg-white/80 backdrop-blur-md py-12">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10 text-xs">
             <div className="space-y-3">
               <div className="flex items-center gap-2">
-                <div className="p-1.5 bg-[#8BFF68] rounded-lg text-black">
+                <div className="p-1.5 bg-emerald-600 rounded-lg text-white">
                   <Brain className="w-4 h-4" />
                 </div>
-                <span className="font-black text-sm text-white">MindMap AI</span>
+                <span className="font-black text-sm text-slate-900">MindMap AI</span>
               </div>
-              <p className="text-slate-400 leading-relaxed">
+              <p className="text-slate-600 leading-relaxed">
                 The AI Second Brain for Modern Education. Built for the Google Gemini &amp; Appwrite Education Hackathon.
               </p>
               <div className="text-[11px] text-slate-500">
-                Category: <strong className="text-[#8BFF68]">Education</strong>
+                Category: <strong className="text-emerald-700">Education</strong>
               </div>
             </div>
 
             <div>
-              <h4 className="font-bold text-white mb-3 uppercase tracking-wider text-[11px]">
+              <h4 className="font-bold text-slate-900 mb-3 uppercase tracking-wider text-[11px]">
                 Product Features
               </h4>
-              <ul className="space-y-2 text-slate-400">
+              <ul className="space-y-2 text-slate-600">
                 <li>
-                  <Link href="/dashboard/study" className="hover:text-[#8BFF68] transition-colors">
+                  <Link href="/dashboard/study" className="hover:text-emerald-600 transition-colors">
                     Smart Mind Maps
                   </Link>
                 </li>
                 <li>
-                  <Link href="/dashboard/study" className="hover:text-[#8BFF68] transition-colors">
+                  <Link href="/dashboard/study" className="hover:text-emerald-600 transition-colors">
                     AI Flashcard Decks
                   </Link>
                 </li>
                 <li>
-                  <Link href="/dashboard/study" className="hover:text-[#8BFF68] transition-colors">
+                  <Link href="/dashboard/study" className="hover:text-emerald-600 transition-colors">
                     Exam Study Guides
                   </Link>
                 </li>
                 <li>
-                  <Link href="/dashboard/chat" className="hover:text-[#8BFF68] transition-colors">
+                  <Link href="/dashboard/chat" className="hover:text-emerald-600 transition-colors">
                     Citation-Backed Chat
                   </Link>
                 </li>
@@ -379,10 +375,10 @@ export default function LandingPage() {
             </div>
 
             <div>
-              <h4 className="font-bold text-white mb-3 uppercase tracking-wider text-[11px]">
+              <h4 className="font-bold text-slate-900 mb-3 uppercase tracking-wider text-[11px]">
                 Technology Stack
               </h4>
-              <ul className="space-y-2 text-slate-400">
+              <ul className="space-y-2 text-slate-600">
                 <li>Google Gemini 1.5 Flash</li>
                 <li>Gemini text-embedding-004</li>
                 <li>Appwrite VectorsDB</li>
@@ -392,22 +388,22 @@ export default function LandingPage() {
             </div>
 
             <div>
-              <h4 className="font-bold text-white mb-3 uppercase tracking-wider text-[11px]">
+              <h4 className="font-bold text-slate-900 mb-3 uppercase tracking-wider text-[11px]">
                 Quick Links
               </h4>
-              <ul className="space-y-2 text-slate-400">
+              <ul className="space-y-2 text-slate-600">
                 <li>
-                  <Link href="/auth/login" className="hover:text-[#8BFF68] transition-colors">
+                  <Link href="/auth/login" className="hover:text-emerald-600 transition-colors">
                     1-Click Guest Access
                   </Link>
                 </li>
                 <li>
-                  <Link href="/dashboard/sources" className="hover:text-[#8BFF68] transition-colors">
+                  <Link href="/dashboard/sources" className="hover:text-emerald-600 transition-colors">
                     Document Ingestion
                   </Link>
                 </li>
                 <li>
-                  <Link href="/dashboard" className="hover:text-[#8BFF68] transition-colors">
+                  <Link href="/dashboard" className="hover:text-emerald-600 transition-colors">
                     Student Workspace
                   </Link>
                 </li>
@@ -415,12 +411,12 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+          <div className="pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-600">
             <p>
               © 2026 MindMap AI — Edu Edition. All rights reserved.
             </p>
             <div className="flex items-center gap-4">
-              <span className="inline-flex items-center gap-1 text-[#8BFF68] font-bold">
+              <span className="inline-flex items-center gap-1 text-emerald-600 font-bold">
                 <CheckCircle2 className="w-3.5 h-3.5" /> Hackathon Submission Prototype
               </span>
             </div>
