@@ -47,3 +47,32 @@ export interface IngestPayload {
   originalUrl?: string;
   tags: string[];
 }
+
+// ─── Educational Study Features (Powered by Google Gemini) ───────────────────
+export interface Flashcard {
+  id: string;
+  question: string;
+  answer: string;
+  category?: string;
+}
+
+export interface QuizQuestion {
+  id: string;
+  question: string;
+  options: string[];
+  correctIndex: number;
+  explanation: string;
+}
+
+export interface ConceptDefinition {
+  term: string;
+  definition: string;
+}
+
+export interface StudyGuide {
+  title: string;
+  summary: string;
+  keyTakeaways: string[];
+  concepts: ConceptDefinition[];
+  examTips: string[];
+}
