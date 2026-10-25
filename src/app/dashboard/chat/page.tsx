@@ -208,20 +208,22 @@ export default function ChatPage() {
                 I can explain concepts, synthesize notes, or answer questions directly from your uploaded course materials with source citations.
               </p>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full max-w-lg">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full max-w-xl">
                 {[
-                  "Hi! How can you help me study?",
-                  "Explain quantum superposition simply",
-                  "How does self-attention work in Transformers?",
-                  "What are key concepts in my course notes?",
+                  "Explain how TLS 1.3 prevents Man-In-The-Middle attacks",
+                  "Compare SQL Injection vs Cross-Site Scripting (XSS)",
+                  "How does Zero Trust enforce continuous verification?",
+                  "Explain Buffer Overflow exploits and ASLR mitigation",
+                  "What are key steps in NIST SP 800-61 Incident Response?",
+                  "What is Diffie-Hellman Ephemeral Perfect Forward Secrecy?",
                 ].map((suggestion) => (
                   <button
                     key={suggestion}
                     onClick={() => handleSend(suggestion)}
-                    className="px-4 py-3 bg-zinc-900/80 border border-zinc-800 rounded-xl text-xs text-zinc-300 hover:text-white hover:border-indigo-500/40 hover:bg-zinc-800/60 transition-all text-left flex items-center justify-between group"
+                    className="px-4 py-3 bg-zinc-900/80 border border-zinc-800 rounded-xl text-xs text-zinc-300 hover:text-white hover:border-emerald-500/40 hover:bg-zinc-800/60 transition-all text-left flex items-center justify-between group"
                   >
-                    <span>{suggestion}</span>
-                    <Zap className="w-3.5 h-3.5 text-zinc-600 group-hover:text-indigo-400 transition-colors flex-shrink-0 ml-2" />
+                    <span className="line-clamp-2">{suggestion}</span>
+                    <Zap className="w-3.5 h-3.5 text-zinc-600 group-hover:text-emerald-400 transition-colors flex-shrink-0 ml-2" />
                   </button>
                 ))}
               </div>

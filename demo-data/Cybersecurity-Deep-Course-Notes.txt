@@ -1,0 +1,135 @@
+CS-480: Advanced Cybersecurity & Threat Intelligence — Complete Course Notes
+
+Module 1: Core Principles, Defense-in-Depth & Zero Trust Architecture
+
+The Foundation of Information Security rests upon the CIA Triad:
+1. Confidentiality: Ensuring sensitive data is accessible only to authorized entities. Enforced via encryption (AES-256), access control lists (ACLs), and strict role-based access control (RBAC).
+2. Integrity: Guarding against unauthorized modification or deletion of data. Enforced through cryptographic hashing (SHA-256), message authentication codes (HMAC), and digital signatures.
+3. Availability: Guaranteeing reliable and timely access to systems for authorized users. Protected against Distributed Denial of Service (DDoS) using rate-limiting, Content Delivery Networks (CDNs), load balancing, and failover clustering.
+
+Non-Repudiation and Authenticity:
+Non-repudiation ensures an entity cannot deny the authenticity of their signature on a document or the sending of a message. It combines asymmetric public key cryptography with trusted Certificate Authorities (CAs).
+
+Defense-in-Depth (DiD):
+A layered defense strategy where multiple independent security controls are deployed throughout an IT system. If an attacker breaches the perimeter firewall, secondary defenses (IDS/IPS, host-based firewalls, internal micro-segmentation, and endpoint encryption) prevent lateral movement.
+
+Zero Trust Architecture (NIST SP 800-207):
+Traditional perimeter security operated on the "castle-and-moat" paradigm (trust anything inside the local network). Zero Trust eliminates implicit trust. Its core mantra is: "Never Trust, Always Verify."
+Key Tenets of Zero Trust:
+- Continuous verification: Verify identity, device posture, location, and session risk on every single request.
+- Principle of Least Privilege (PoLP): Users and microservices are granted only the minimum permissions necessary for their immediate task (Just-In-Time and Just-Enough-Access).
+- Assume Breach: Operate under the assumption that adversaries already exist inside the internal environment. Segment networks into micro-perimeters and inspect all internal east-west traffic.
+
+---
+
+Module 2: Applied Cryptography & Public Key Infrastructure (PKI)
+
+Symmetric Encryption:
+A single shared secret key is used for both encryption and decryption.
+- AES (Advanced Encryption Standard): Symmetric block cipher with key lengths of 128, 192, or 256 bits operating on 128-bit blocks. AES-256-GCM (Galois/Counter Mode) provides Authenticated Encryption with Associated Data (AEAD), guaranteeing both privacy and integrity.
+- ChaCha20-Poly1305: High-speed stream cipher favored for mobile devices lacking hardware AES acceleration.
+
+Asymmetric (Public Key) Cryptography:
+Uses mathematically linked key pairs: a public key for encryption/signature verification and a private key for decryption/signing.
+- RSA: Security relies on the integer factorization problem of large prime numbers (typically 2048 to 4096-bit keys).
+- ECC (Elliptic Curve Cryptography): Security is based on the elliptic curve discrete logarithm problem (ECDLP). Curves such as Ed25519 and secp256r1 achieve equivalent or superior security to RSA-3072 using only 256-bit keys, drastically cutting computational overhead and bandwidth.
+
+Diffie-Hellman Key Exchange & Ephemeral Perfect Forward Secrecy (PFS):
+ECDHE (Elliptic Curve Diffie-Hellman Ephemeral) enables two parties to negotiate a shared secret key across an insecure channel without transmitting the key itself.
+Perfect Forward Secrecy ensures that even if a server's long-term private key is compromised in the future, past recorded encrypted sessions cannot be decrypted, because session keys are ephemeral and discarded after use.
+
+TLS 1.3 Protocol (Transport Layer Security):
+RFC 8446 simplified and hardened web security:
+- Removed insecure legacy algorithms: deprecated MD5, SHA-1, RC4, DES, CBC-mode ciphers, and static RSA key exchange.
+- 1-RTT Handshake: Reduced handshake latency from two round-trips to one round-trip by sending key shares in the ClientHello.
+- Encrypted Certificates: Server and client certificates are encrypted during transmission, preventing passive eavesdroppers from identifying which service the user connects to.
+
+---
+
+Module 3: Web Application Security & OWASP Top 10 Vulnerabilities
+
+1. Injection Flaws (SQL Injection - SQLi):
+Occurs when untrusted user input is concatenated directly into SQL interpreter queries.
+- Impact: Authentication bypass (`' OR '1'='1`), unauthorized database dumping, data modification, or administrative takeover.
+- Prevention: Always use Parameterized Queries (Prepared Statements) or ORMs with strict typed bindings. Never concatenate string inputs into queries. Enforce database least privilege.
+
+2. Cross-Site Scripting (XSS):
+Execution of malicious JavaScript within the context of a victim's web browser session.
+- Stored (Persistent) XSS: Malicious payload is permanently saved in the application's database (e.g., in a forum post or comment) and executed whenever other users view the page.
+- Reflected (Non-Persistent) XSS: Malicious script is embedded in a URL parameter and reflected off the web server in the immediate response.
+- DOM-based XSS: Vulnerability exists entirely on the client side where JavaScript reads input from a dangerous source (e.g., `location.search`) and writes to an unsafe sink (`document.write`, `innerHTML`).
+- Mitigation: Context-aware output encoding, strict Content Security Policy (CSP) HTTP headers (`default-src 'self'`), and setting `HttpOnly` and `SameSite=Strict` flags on session cookies.
+
+3. Cross-Site Request Forgery (CSRF):
+Tricks an authenticated victim into executing unwanted actions on a trusted web application where they currently possess an active session.
+- Mitigation: Anti-CSRF Synchronizer Tokens (cryptographically random tokens verified on state-changing POST/PUT requests) and `SameSite=Lax` or `Strict` cookie attributes.
+
+4. Server-Side Request Forgery (SSRF):
+The web server is coerced into crafting a network request to an arbitrary remote or internal destination (e.g., accessing cloud metadata service at `http://169.254.169.254/latest/meta-data/`).
+- Mitigation: Restrict outgoing traffic via network egress firewalls, validate and whitelist URL schemes and target hosts, and disable HTTP redirects.
+
+5. Broken Object Level Authorization (BOLA / IDOR):
+Insecure Direct Object References occur when an API endpoint takes an object identifier (e.g., `/api/documents?id=1234`) without verifying whether the requesting user actually owns that resource.
+- Mitigation: Implement server-side authorization checks on every state read/write based on user session context.
+
+---
+
+Module 4: Threat Intelligence, Malware Analysis & MITRE ATT&CK
+
+MITRE ATT&CK Framework:
+A globally accessible knowledge base of adversary tactics, techniques, and procedures (TTPs) based on real-world cyber incidents.
+Core Matrix Tactics:
+1. Initial Access (Spearphishing, Exploit Public-Facing App, External Remote Services)
+2. Execution (Command and Scripting Interpreter, PowerShell, WMI)
+3. Persistence (Registry Run Keys, Scheduled Task/Job, Account Manipulation)
+4. Privilege Escalation (Token Impersonation, Sudo Exploits, DLL Sideloading)
+5. Defense Evasion (Obfuscated Files, Masquerading, Process Injection, Rootkits)
+6. Credential Access (LSASS Memory Dumping via Mimikatz, Brute Force, Kerberoasting)
+7. Lateral Movement (Pass the Hash, Remote Desktop Protocol, SSH Hijacking)
+8. Exfiltration (Automated Exfiltration, Exfiltration Over C2 Channel)
+
+Malware Classifications:
+- Ransomware: Encrypts victim assets using asymmetric/symmetric hybrids and demands cryptocurrency ransom for private decryption keys.
+- Rootkit: Stealthy malware operating at ring-0 kernel level or bootloader level to hide malicious processes and hooks from OS monitoring tools.
+- Remote Access Trojan (RAT): Provides covert command-and-control (C2) backdoor administration.
+- Buffer Overflow Exploits: Occurs when a program writes data beyond allocated stack/heap buffer boundaries in memory-unsafe languages (C/C++). Exploits overwrite the instruction pointer (EIP/RIP) to execute arbitrary shellcode.
+- Modern OS Countermeasures: ASLR (Address Space Layout Randomization), DEP/NX (Data Execution Prevention / No-Execute Bit), and Stack Canaries.
+
+---
+
+Module 5: Identity, Access Management & Authentication Protocols
+
+Authentication Protocols:
+- OAuth 2.0: Delegation framework that enables third-party applications to obtain limited access to an HTTP service on behalf of a resource owner without exposing user credentials. Uses Authorization Codes and Bearer Access Tokens.
+- OpenID Connect (OIDC): Identity layer built directly on top of OAuth 2.0. Introduces signed JWT `id_token` that asserts user identity claims (sub, email, aud, exp).
+- SAML 2.0 (Security Assertion Markup Language): XML-based standard for Enterprise Single Sign-On (SSO) between Identity Providers (IdP like Okta) and Service Providers (SP).
+- FIDO2 & WebAuthn: Hardware-backed, phishing-resistant passwordless authentication. Employs public key cryptography stored in physical security keys (YubiKey) or biometric platform authenticators (FaceID, Windows Hello). Immune to adversary-in-the-middle phishing because credentials are cryptographically scoped to the exact domain origin.
+
+Multi-Factor Authentication (MFA):
+Requires two or more independent factors:
+1. Something you know (Password, PIN)
+2. Something you have (FIDO2 Key, Hardware TOTP Token, Authenticator App)
+3. Something you are (Fingerprint, Iris, Facial Biometrics)
+Security Note: SMS-based 2FA is deprecated by NIST SP 800-63B due to vulnerability to SIM swapping and SS7 mobile network interception.
+
+---
+
+Module 6: Security Operations, SIEM & Incident Response (DFIR)
+
+NIST SP 800-61 Rev. 2 Incident Handling Lifecycle:
+1. Preparation: Deploying EDR sensors, SIEM logging pipelines, configuring backup immutability, and establishing incident response playbooks.
+2. Detection & Analysis: Triaging alerts from Security Information and Event Management (SIEM) systems (e.g., Splunk, Microsoft Sentinel), analyzing indicators of compromise (IOCs: file hashes, malicious IPs, anomalous behavior).
+3. Containment, Eradication & Recovery:
+   - Short-term Containment: Isolating infected hosts from the network, revoking compromised API tokens and session cookies.
+   - Eradication: Removing rootkits, deleting persistence scheduled tasks, and patching exploited CVEs.
+   - Recovery: Restoring systems from clean, immutable offline backups and monitoring closely for reinfection.
+4. Post-Incident Activity (Lessons Learned): Conducting post-mortems, identifying security gaps, updating detection rules, and documenting timeline metrics (MTTD: Mean Time to Detect, MTTR: Mean Time to Respond).
+
+Digital Forensics & Chain of Custody:
+Order of Volatility in forensic acquisition (from most volatile to least volatile):
+1. CPU Registers and Cache
+2. System Routing Tables, ARP cache, Process Tables, Kernel Statistics (RAM Memory)
+3. Temporary File Systems / Swap space
+4. Hard Disk drives and solid-state storage
+5. Remote Logging data and network topology documentation
+Chain of custody documents every individual who collected, transferred, analyzed, and secured electronic evidence to preserve legal admissibility in court.

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useCallback } from "react";
+import Link from "next/link";
 import { useAuth } from "@/lib/auth-context";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -38,6 +39,10 @@ import {
   Tag,
   Filter,
   Sparkles,
+  Shield,
+  ShieldCheck,
+  ArrowRight,
+  Lock,
 } from "lucide-react";
 import type { SourceDocument } from "@/types";
 
@@ -52,6 +57,7 @@ export default function SourcesPage() {
   const [submitting, setSubmitting] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [loadingSamples, setLoadingSamples] = useState(false);
+  const [loadingCyber, setLoadingCyber] = useState(false);
 
   // Form state
   const [formTitle, setFormTitle] = useState("");
@@ -78,6 +84,63 @@ export default function SourcesPage() {
   useEffect(() => {
     fetchDocuments();
   }, [fetchDocuments]);
+
+  const handleImportCybersecurity = async () => {
+    if (!user) return;
+    setLoadingCyber(true);
+    try {
+      const cyberModules = [
+        {
+          userId: user.$id,
+          title: "CS 480: Zero Trust Architecture & Defense-in-Depth",
+          fileType: "Note",
+          tags: ["cybersecurity", "zerotrust", "defense-in-depth", "nist"],
+          textContent: "The Foundation of Information Security rests upon the CIA Triad: Confidentiality via AES-256 and RBAC, Integrity via SHA-256 and HMAC digital signatures, and Availability protected against DDoS using rate-limiting, CDNs, and failover clustering. Non-repudiation combines asymmetric public key cryptography with trusted Certificate Authorities. Defense-in-Depth (DiD) deploys layered controls so that if perimeter firewalls fail, internal micro-segmentation and IDS/IPS prevent lateral movement. Zero Trust Architecture (NIST SP 800-207) eliminates implicit trust under the principle 'Never Trust, Always Verify'. Key tenets include continuous authentication of device posture and session risk, Principle of Least Privilege (PoLP) with Just-In-Time access, and micro-perimeters assuming the network is already breached.",
+        },
+        {
+          userId: user.$id,
+          title: "CS 480: Applied Cryptography, PKI & TLS 1.3 Handshake",
+          fileType: "PDF",
+          tags: ["cryptography", "tls1.3", "aes256", "pki", "ecc"],
+          textContent: "Symmetric encryption uses AES-256-GCM for Authenticated Encryption with Associated Data (AEAD) and ChaCha20-Poly1305 for stream ciphers. Asymmetric cryptography utilizes RSA (2048-4096 bit prime factorization) and Elliptic Curve Cryptography (ECC Ed25519, secp256r1) which provides 128-bit security with only 256-bit keys. Diffie-Hellman Key Exchange (ECDHE) enables Ephemeral Perfect Forward Secrecy (PFS), guaranteeing that past recorded sessions cannot be decrypted even if private keys are compromised later. The TLS 1.3 protocol (RFC 8446) eliminates legacy ciphers (MD5, SHA-1, RC4, static RSA), introduces a 1-RTT zero-overhead handshake with pre-sent key shares, and encrypts server certificates to prevent eavesdropping.",
+        },
+        {
+          userId: user.$id,
+          title: "CS 480: Web Application Security & OWASP Top 10 Exploits",
+          fileType: "Note",
+          tags: ["owasp", "sqli", "xss", "csrf", "ssrf", "security"],
+          textContent: "SQL Injection (SQLi) occurs when untrusted input is concatenated into SQL queries; prevented strictly by Parameterized Queries (Prepared Statements) and ORMs with database least privilege. Cross-Site Scripting (XSS) executes malicious JavaScript in victim browsers: Stored XSS resides in database records, Reflected XSS reflects off query parameters, and DOM XSS occurs client-side in unsafe sinks like innerHTML; mitigated by context-aware output encoding and Content Security Policy (CSP default-src 'self'). Cross-Site Request Forgery (CSRF) tricks authenticated users into sending state-changing requests; mitigated with Anti-CSRF Synchronizer Tokens and SameSite=Strict cookies. Server-Side Request Forgery (SSRF) coerces servers to access internal cloud metadata (169.254.169.254); mitigated by egress firewalls and strict URL whitelisting. Broken Object Level Authorization (BOLA/IDOR) requires server-side ownership checks on every object ID lookup.",
+        },
+        {
+          userId: user.$id,
+          title: "CS 480: Threat Intelligence, Malware & Incident Response (DFIR)",
+          fileType: "Note",
+          tags: ["mitre", "malware", "dfir", "siem", "ransomware"],
+          textContent: "The MITRE ATT&CK Framework categorizes adversary tactics and techniques across Initial Access, Execution, Persistence, Privilege Escalation, Defense Evasion, Credential Access (Mimikatz LSASS dumps), Lateral Movement (Pass-the-Hash), and Exfiltration. Malware categories include Ransomware (hybrid asymmetric-symmetric payload encryption), Rootkits (ring-0 kernel hooks hiding malicious processes), and Buffer Overflows overwriting instruction pointers (EIP/RIP); modern OS defenses include ASLR, DEP/NX, and Stack Canaries. NIST SP 800-61 Rev. 2 defines Incident Handling across Preparation, Detection & Analysis (SIEM log analysis, IOC file hashes), Containment (host isolation, token revocation), Eradication, and Recovery from immutable offline backups. In Digital Forensics (DFIR), Order of Volatility is: Registers/Cache > RAM Memory > Swap space > Hard Drives > Network logs, guarded under strict chain of custody.",
+        },
+      ];
+
+      for (const mod of cyberModules) {
+        await fetch("/api/ingest", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(mod),
+        });
+      }
+
+      toast({
+        title: "🛡️ Cybersecurity Masterclass Imported!",
+        description: "4 in-depth modules indexed with vector embeddings! Head over to AI Chat or Study Hub to start your session.",
+        variant: "success",
+      });
+
+      fetchDocuments();
+    } catch {
+      toast({ title: "Failed to load cybersecurity notes", variant: "destructive" });
+    } finally {
+      setLoadingCyber(false);
+    }
+  };
 
   const handleLoadSampleNotes = async () => {
     if (!user) return;
@@ -247,7 +310,25 @@ export default function SourcesPage() {
             {documents.length} module{documents.length !== 1 ? "s" : ""} indexed in semantic memory
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
+          <Button
+            onClick={handleImportCybersecurity}
+            disabled={loadingCyber}
+            className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold shadow-md shadow-emerald-900/30"
+          >
+            {loadingCyber ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Importing Cybersecurity...
+              </>
+            ) : (
+              <>
+                <ShieldCheck className="w-4 h-4 mr-2" />
+                Import Cybersecurity Notes
+              </>
+            )}
+          </Button>
+
           <Button
             variant="outline"
             onClick={handleLoadSampleNotes}
@@ -262,7 +343,7 @@ export default function SourcesPage() {
             ) : (
               <>
                 <Sparkles className="w-4 h-4 mr-2 text-indigo-400" />
-                Load Sample Notes
+                Load General Samples
               </>
             )}
           </Button>
@@ -374,6 +455,59 @@ export default function SourcesPage() {
             </form>
           </DialogContent>
         </Dialog>
+        </div>
+      </div>
+
+      {/* Featured Deep Cybersecurity Curriculum Card */}
+      <div className="bg-gradient-to-r from-emerald-950/70 via-slate-900 to-indigo-950/60 border border-emerald-500/30 rounded-2xl p-6 shadow-xl relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
+        <div className="flex items-start gap-4">
+          <div className="p-3 bg-emerald-500/15 text-emerald-400 rounded-2xl border border-emerald-500/30 shrink-0 mt-0.5 shadow-sm">
+            <Shield className="w-7 h-7" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+              <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/30 text-[10px] font-bold uppercase tracking-wider">
+                Full Curriculum Available
+              </Badge>
+              <span className="text-xs text-slate-400">CS 480 • 4 In-Depth Academic Modules</span>
+            </div>
+            <h3 className="text-lg font-bold text-white">
+              Advanced Cybersecurity &amp; Threat Intelligence Masterclass
+            </h3>
+            <p className="text-xs text-slate-300 mt-1 max-w-2xl leading-relaxed">
+              University-grade notes on Zero Trust Architecture, Applied Cryptography (AES-256-GCM, TLS 1.3 1-RTT Handshake), OWASP Top 10 Web Exploits (SQLi, Stored/Reflected XSS, CSRF, SSRF), and MITRE ATT&amp;CK DFIR.
+            </p>
+          </div>
+        </div>
+
+        <div className="flex flex-col sm:flex-row items-center gap-2.5 shrink-0 w-full md:w-auto">
+          <Button
+            onClick={handleImportCybersecurity}
+            disabled={loadingCyber}
+            className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-5 py-3 rounded-xl shadow-lg shadow-emerald-900/30 w-full sm:w-auto"
+          >
+            {loadingCyber ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Indexing 4 Modules...
+              </>
+            ) : (
+              <>
+                <ShieldCheck className="w-4 h-4 mr-2" />
+                1-Click Import Cybersecurity
+              </>
+            )}
+          </Button>
+
+          <Link href="/dashboard/chat" className="w-full sm:w-auto">
+            <Button
+              variant="outline"
+              className="border-emerald-500/30 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20 text-xs font-semibold px-4 py-3 rounded-xl w-full"
+            >
+              Start Chat Session
+              <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
+            </Button>
+          </Link>
         </div>
       </div>
 

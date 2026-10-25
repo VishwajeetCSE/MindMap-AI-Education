@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
 import { useAuth } from "@/lib/auth-context";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -27,6 +28,8 @@ import {
   Loader2,
   Layers,
   Lightbulb,
+  Shield,
+  ShieldCheck,
 } from "lucide-react";
 import type { SourceDocument, StudyGuide, Flashcard, QuizQuestion } from "@/types";
 
@@ -183,6 +186,24 @@ export default function StudyHubPage() {
           </Button>
         </div>
       </div>
+
+      {/* Quick Cybersecurity Import Suggestion */}
+      {documents.length === 0 && (
+        <div className="bg-gradient-to-r from-emerald-950/60 via-slate-900 to-indigo-950/40 border border-emerald-500/30 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs shadow-md">
+          <div className="flex items-center gap-2.5">
+            <Shield className="w-5 h-5 text-emerald-400 shrink-0" />
+            <span className="text-slate-300">
+              Want to practice flashcards &amp; quizzes on a complete syllabus?
+            </span>
+          </div>
+          <Link href="/dashboard/sources">
+            <Button size="sm" className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-sm">
+              <ShieldCheck className="w-3.5 h-3.5 mr-1.5" />
+              Import Cybersecurity Notes (4 Modules)
+            </Button>
+          </Link>
+        </div>
+      )}
 
       {/* Main Tabs */}
       <Tabs

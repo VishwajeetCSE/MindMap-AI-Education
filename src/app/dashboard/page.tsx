@@ -15,6 +15,8 @@ import {
   ArrowRight,
   Clock,
   GraduationCap,
+  Shield,
+  ShieldCheck,
 } from "lucide-react";
 import type { SourceDocument } from "@/types";
 
@@ -139,6 +141,37 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
         ))}
+      </div>
+
+      {/* Featured Cybersecurity Masterclass Banner */}
+      <div className="bg-gradient-to-r from-emerald-950/60 via-slate-900 to-indigo-950/50 border border-emerald-500/30 rounded-2xl p-6 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="flex items-start gap-4">
+          <div className="p-3 bg-emerald-500/15 text-emerald-400 rounded-xl border border-emerald-500/30 shrink-0">
+            <Shield className="w-6 h-6" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/30 text-[10px] font-bold uppercase tracking-wider">
+                Ready To Import
+              </Badge>
+              <span className="text-xs text-slate-400">CS 480: Cybersecurity &amp; Threat Intelligence</span>
+            </div>
+            <h3 className="text-base font-bold text-white">
+              Deep In-Depth Cybersecurity Course Notes
+            </h3>
+            <p className="text-xs text-slate-300 mt-1 max-w-2xl leading-relaxed">
+              Explore 4 university modules covering Zero Trust Architecture, Applied Cryptography (TLS 1.3, AES-256), OWASP Top 10 web vulnerabilities, and MITRE ATT&amp;CK Incident Response.
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-3 shrink-0 w-full md:w-auto">
+          <Link href="/dashboard/sources" className="w-full md:w-auto">
+            <Button className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow-md shadow-emerald-900/30 w-full">
+              <ShieldCheck className="w-4 h-4 mr-2" />
+              Import Curriculum in 1-Click
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Recent Sources */}
