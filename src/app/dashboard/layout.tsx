@@ -182,9 +182,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 min-w-0 flex flex-col">
+      <main className="relative flex-1 min-w-0 flex flex-col bg-zinc-950 overflow-hidden">
+        {/* Subtle ambient glow backdrop */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-indigo-500/[0.04] rounded-full blur-3xl glow-pulse" />
+          <div className="absolute bottom-0 left-1/3 w-[600px] h-[600px] bg-purple-500/[0.03] rounded-full blur-3xl glow-pulse" style={{ animationDelay: "2s" }} />
+        </div>
+
         {/* Mobile header */}
-        <header className="lg:hidden border-b border-zinc-800 bg-zinc-900/80 backdrop-blur-xl px-4 py-3 flex items-center gap-3 sticky top-0 z-30">
+        <header className="relative z-30 lg:hidden border-b border-zinc-800 bg-zinc-900/80 backdrop-blur-xl px-4 py-3 flex items-center gap-3 sticky top-0">
           <Button
             variant="ghost"
             size="icon"
@@ -195,12 +201,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </Button>
           <div className="flex items-center gap-2">
             <Brain className="w-5 h-5 text-indigo-400" />
-            <span className="font-semibold text-zinc-100">MindMap AI</span>
+            <span className="font-semibold text-zinc-100">MindMap AI Education</span>
           </div>
         </header>
 
         {/* Page content */}
-        <div className="flex-1 overflow-auto">{children}</div>
+        <div className="relative z-10 flex-1 overflow-auto">{children}</div>
       </main>
     </div>
   );

@@ -137,10 +137,18 @@ export async function generateChatResponse(context: string, query: string): Prom
   const geminiKey = getGeminiKey();
   const openAIKey = getOpenAIKey();
 
-  const systemPrompt =
-    "You are MindMap AI, an intelligent educational study companion and Second Brain. " +
-    "Help students and researchers understand complex topics by synthesizing information clearly based on their uploaded course materials. " +
-    "Cite the specific document or section where applicable. If context is missing, provide an insightful pedagogical response and note what was in the notes.";
+  const hasContext = context && context.trim().length > 0;
+
+  const systemPrompt = hasContext
+    ? "You are MindMap AI, an intelligent educational study companion and Second Brain powered by Google Gemini. " +
+      "Help students and researchers understand complex topics by synthesizing information clearly based on their uploaded course materials. " +
+      "Cite the specific document or section where applicable. If context is missing relevant details for a question, provide an insightful pedagogical answer and mention that."
+    : "You are MindMap AI, a friendly, intelligent educational study companion and Second Brain powered by Google Gemini. " +
+      "Help students learn, answer academic questions, respond warmly to greetings, and guide them on how to upload course notes to generate study guides, flashcards, and quizzes.";
+
+  const userPrompt = hasContext
+    ? `Course context:\n\n${context}\n\n---\n\nStudent question: ${query}`
+    : `Student question: ${query}`;
 
   // 1. Try Gemini API
   if (geminiKey) {
@@ -158,7 +166,7 @@ export async function generateChatResponse(context: string, query: string): Prom
               role: "user",
               parts: [
                 {
-                  text: `Course context:\n\n${context}\n\n---\n\nStudent question: ${query}`,
+                  text: userPrompt,
                 },
               ],
             },

@@ -56,10 +56,10 @@ body {
 
 .typing-dot {
   display: inline-block;
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background-color: #a1a1aa;
+  background-color: #818cf8;
   animation: bounce-dot 1.4s infinite ease-in-out both;
 }
 
@@ -69,6 +69,17 @@ body {
 
 .typing-dot:nth-child(2) {
   animation-delay: -0.16s;
+}
+
+/* Shimmer animation */
+@keyframes shimmer-move {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(129, 140, 248, 0.4), transparent);
+  animation: shimmer-move 1.5s infinite;
 }
 
 /* Gradient text helper */
@@ -89,8 +100,8 @@ body {
 
 /* Pulse glow */
 @keyframes pulse-glow {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.8; }
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.7; }
 }
 
 .glow-pulse {

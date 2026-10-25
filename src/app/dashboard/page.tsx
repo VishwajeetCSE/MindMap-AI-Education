@@ -14,6 +14,7 @@ import {
   Plus,
   ArrowRight,
   Clock,
+  GraduationCap,
 } from "lucide-react";
 import type { SourceDocument } from "@/types";
 
@@ -94,6 +95,12 @@ export default function DashboardPage() {
           </p>
         </div>
         <div className="flex items-center gap-3">
+          <Link href="/dashboard/study">
+            <Button variant="outline" className="border-indigo-500/30 bg-indigo-500/10 text-indigo-300 hover:bg-indigo-500/20">
+              <GraduationCap className="w-4 h-4 mr-2 text-indigo-400" />
+              Study Hub
+            </Button>
+          </Link>
           <Link href="/dashboard/sources">
             <Button className="bg-indigo-600 hover:bg-indigo-500 text-white">
               <Plus className="w-4 h-4 mr-2" />

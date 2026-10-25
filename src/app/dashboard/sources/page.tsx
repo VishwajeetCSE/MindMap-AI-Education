@@ -37,6 +37,7 @@ import {
   Clock,
   Tag,
   Filter,
+  Sparkles,
 } from "lucide-react";
 import type { SourceDocument } from "@/types";
 
@@ -50,6 +51,7 @@ export default function SourcesPage() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [loadingSamples, setLoadingSamples] = useState(false);
 
   // Form state
   const [formTitle, setFormTitle] = useState("");
@@ -76,6 +78,52 @@ export default function SourcesPage() {
   useEffect(() => {
     fetchDocuments();
   }, [fetchDocuments]);
+
+  const handleLoadSampleNotes = async () => {
+    if (!user) return;
+    setLoadingSamples(true);
+    try {
+      const sample1 = {
+        userId: user.$id,
+        title: "CS 401: Quantum Computing Foundations",
+        fileType: "Note",
+        tags: ["quantum", "physics", "superposition"],
+        textContent: "Quantum computing leverages superposition, entanglement, and interference to perform calculations intractable for classical computers. Qubits represent linear combinations of orthogonal basis states |0> and |1>. When multiple qubits become entangled, the state vector of the system cannot be factored into individual single-qubit states. In 2024, experiments with topological Majorana zero modes demonstrated a 42% reduction in environmental decoherence. Quantum key distribution protocols such as BB84 utilize quantum no-cloning theorem to guarantee eavesdropping detection.",
+      };
+
+      const sample2 = {
+        userId: user.$id,
+        title: "CS 502: Advanced Deep Learning & Attention",
+        fileType: "PDF",
+        tags: ["ai", "transformers", "deep-learning"],
+        textContent: "The Transformer neural architecture replaces recurrent networks with scaled dot-product attention across multiple representation heads. Key improvements include FlashAttention-3, which reorganizes GPU SRAM tiling and enables asynchronous matrix multiply-accumulate on NVIDIA Hopper Tensor Cores, yielding a 1.8x speedup. Rotary Position Embeddings (RoPE) inject relative position information without requiring absolute learned positional tables, unlocking context windows beyond 128k tokens. Mixture of Experts (MoE) dynamically activates sparse sub-networks per token.",
+      };
+
+      await fetch("/api/ingest", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(sample1),
+      });
+
+      await fetch("/api/ingest", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(sample2),
+      });
+
+      toast({
+        title: "Sample Course Notes Loaded! 📚",
+        description: "2 academic modules were indexed. Head over to Study Hub or AI Chat to test them!",
+        variant: "success",
+      });
+
+      fetchDocuments();
+    } catch {
+      toast({ title: "Failed to load sample notes", variant: "destructive" });
+    } finally {
+      setLoadingSamples(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -194,18 +242,38 @@ export default function SourcesPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-zinc-100">Knowledge Base</h1>
+          <h1 className="text-2xl font-bold text-zinc-100">Course Notes &amp; Syllabus</h1>
           <p className="text-zinc-400 mt-1">
-            {documents.length} source{documents.length !== 1 ? "s" : ""} indexed
+            {documents.length} module{documents.length !== 1 ? "s" : ""} indexed in semantic memory
           </p>
         </div>
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogTrigger asChild>
-            <Button className="bg-indigo-600 hover:bg-indigo-500 text-white">
-              <Plus className="w-4 h-4 mr-2" />
-              Add Source
-            </Button>
-          </DialogTrigger>
+        <div className="flex items-center gap-3">
+          <Button
+            variant="outline"
+            onClick={handleLoadSampleNotes}
+            disabled={loadingSamples}
+            className="border-indigo-500/30 bg-indigo-500/10 text-indigo-300 hover:bg-indigo-500/20"
+          >
+            {loadingSamples ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Indexing Samples...
+              </>
+            ) : (
+              <>
+                <Sparkles className="w-4 h-4 mr-2 text-indigo-400" />
+                Load Sample Notes
+              </>
+            )}
+          </Button>
+
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <DialogTrigger asChild>
+              <Button className="bg-indigo-600 hover:bg-indigo-500 text-white">
+                <Plus className="w-4 h-4 mr-2" />
+                Add Source
+              </Button>
+            </DialogTrigger>
           <DialogContent className="bg-zinc-900 border-zinc-800 sm:max-w-lg">
             <DialogHeader>
               <DialogTitle className="text-zinc-100">Add New Source</DialogTitle>
@@ -306,6 +374,7 @@ export default function SourcesPage() {
             </form>
           </DialogContent>
         </Dialog>
+        </div>
       </div>
 
       {/* Filters */}
@@ -368,13 +437,33 @@ export default function SourcesPage() {
               : "Try adjusting your search or filter criteria."}
           </p>
           {documents.length === 0 && (
-            <Button
-              className="bg-indigo-600 hover:bg-indigo-500 text-white"
-              onClick={() => setDialogOpen(true)}
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              Add Your First Source
-            </Button>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <Button
+                variant="outline"
+                onClick={handleLoadSampleNotes}
+                disabled={loadingSamples}
+                className="border-indigo-500/30 bg-indigo-500/10 text-indigo-300 hover:bg-indigo-500/20"
+              >
+                {loadingSamples ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Loading Modules...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-4 h-4 mr-2 text-indigo-400" />
+                    Load Sample Course Notes
+                  </>
+                )}
+              </Button>
+              <Button
+                className="bg-indigo-600 hover:bg-indigo-500 text-white"
+                onClick={() => setDialogOpen(true)}
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Add Custom Note
+              </Button>
+            </div>
           )}
         </div>
       ) : (

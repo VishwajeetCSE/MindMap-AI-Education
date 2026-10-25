@@ -99,12 +99,11 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // ── 3. Rank by cosine similarity ────────────────────────────────────
+    // ── 3. If no embeddings, answer using Gemini directly ──────────────
     if (allEmbeddings.length === 0) {
+      const answer = await generateChatResponse("", userQuery);
       return NextResponse.json({
-        answer:
-          "I don't have any documents in your knowledge base yet. " +
-          "Try adding some notes, links, or PDFs first!",
+        answer,
         sources: [],
       });
     }
