@@ -1,0 +1,61 @@
+Introduction to Machine Learning and Neural Networks
+
+Machine Learning is a subset of Artificial Intelligence that enables computers to learn patterns from data without being explicitly programmed. Instead of writing rules manually, we feed data to an algorithm and let it discover the rules on its own.
+
+Types of Machine Learning:
+1. Supervised Learning: The algorithm learns from labeled examples. For instance, given thousands of emails labeled "spam" or "not spam", it learns to classify new emails. Common algorithms include Linear Regression, Decision Trees, Support Vector Machines (SVM), and Neural Networks.
+
+2. Unsupervised Learning: The algorithm finds hidden patterns in unlabeled data. K-Means Clustering groups similar data points together. Principal Component Analysis (PCA) reduces dimensionality while preserving variance.
+
+3. Reinforcement Learning: An agent learns by interacting with an environment and receiving rewards or penalties. This is how AlphaGo learned to play Go and how self-driving cars learn to navigate roads.
+
+Neural Networks and Deep Learning:
+A Neural Network is inspired by the human brain. It consists of layers of interconnected nodes (neurons). Each connection has a weight that gets adjusted during training.
+
+Key Components:
+- Input Layer: Receives the raw data (pixel values, text embeddings, numerical features)
+- Hidden Layers: Process the data through weighted connections and activation functions
+- Output Layer: Produces the final prediction (classification label, regression value)
+
+Backpropagation Algorithm:
+Backpropagation is the primary method for training neural networks. It works by:
+1. Forward Pass: Input data flows through the network to produce a prediction
+2. Loss Calculation: The difference between prediction and actual value is computed using a loss function (Mean Squared Error for regression, Cross-Entropy for classification)
+3. Backward Pass: Gradients of the loss are calculated with respect to each weight using the chain rule of calculus
+4. Weight Update: Weights are adjusted in the direction that reduces the loss, scaled by the learning rate
+
+The learning rate (alpha) is a crucial hyperparameter. Too high and the model overshoots the optimal solution. Too low and training takes forever or gets stuck in local minima.
+
+Activation Functions:
+- ReLU (Rectified Linear Unit): f(x) = max(0, x). Most popular for hidden layers. Solves the vanishing gradient problem.
+- Sigmoid: f(x) = 1/(1+e^-x). Outputs between 0 and 1. Used in binary classification output layers.
+- Softmax: Converts raw outputs into probability distribution. Used for multi-class classification.
+- GELU (Gaussian Error Linear Unit): Used in Transformer models like BERT and GPT.
+
+Overfitting and Regularization:
+Overfitting occurs when a model memorizes training data instead of learning general patterns. It performs well on training data but poorly on new, unseen data.
+
+Prevention techniques:
+- Dropout: Randomly deactivates neurons during training (typically 20-50%) to prevent co-adaptation
+- L1 Regularization (Lasso): Adds absolute value of weights to loss function. Encourages sparsity (some weights become exactly zero)
+- L2 Regularization (Ridge): Adds squared weights to loss function. Shrinks weights toward zero but rarely makes them exactly zero
+- Early Stopping: Monitor validation loss and stop training when it starts increasing
+- Data Augmentation: Artificially increase training data through transformations (rotation, flipping, cropping for images)
+
+Transformers and Attention Mechanism:
+The Transformer architecture revolutionized NLP by replacing sequential processing (RNNs) with parallel self-attention. The key innovation is the Attention Mechanism, which allows the model to focus on relevant parts of the input regardless of their position in the sequence.
+
+Self-Attention computes three vectors for each token: Query (Q), Key (K), and Value (V). The attention score between two tokens is the dot product of their Query and Key vectors, scaled by the square root of the dimension. These scores determine how much each token attends to every other token.
+
+Popular Transformer models:
+- BERT: Bidirectional encoder for understanding text (used in Google Search)
+- GPT: Autoregressive decoder for generating text (ChatGPT, GPT-4)
+- T5: Encoder-decoder for text-to-text tasks
+- Vision Transformer (ViT): Applies transformer architecture to image classification
+
+Evaluation Metrics:
+- Accuracy: Percentage of correct predictions. Can be misleading with imbalanced datasets.
+- Precision: Of all positive predictions, how many were actually positive? Important when false positives are costly.
+- Recall: Of all actual positives, how many did we correctly identify? Important when false negatives are costly.
+- F1 Score: Harmonic mean of Precision and Recall. Balances both metrics.
+- AUC-ROC: Area under the Receiver Operating Characteristic curve. Measures model's ability to distinguish between classes.

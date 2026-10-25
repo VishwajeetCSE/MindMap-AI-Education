@@ -1,0 +1,113 @@
+Web Development Fundamentals — Course Notes
+
+Module 1: How the Internet Works
+
+When you type a URL in your browser, the following happens:
+1. DNS Resolution: The browser asks a DNS server to convert the domain name (e.g., google.com) into an IP address (e.g., 142.250.80.46)
+2. TCP Connection: A three-way handshake establishes a reliable connection between your browser and the server
+3. HTTP Request: Your browser sends an HTTP GET request to the server asking for the webpage
+4. Server Processing: The server processes the request, possibly querying a database, and generates a response
+5. HTTP Response: The server sends back HTML, CSS, and JavaScript files
+6. Rendering: The browser parses HTML to build the DOM tree, applies CSS styles, and executes JavaScript
+
+HTTP Status Codes:
+- 200 OK: Request successful
+- 301 Moved Permanently: Resource has been permanently moved to a new URL
+- 404 Not Found: The requested resource does not exist
+- 500 Internal Server Error: Something went wrong on the server side
+- 403 Forbidden: You don't have permission to access this resource
+
+Module 2: HTML and CSS
+
+HTML (HyperText Markup Language) defines the structure and content of web pages. Key semantic elements include header, nav, main, article, section, aside, and footer. Using semantic HTML improves accessibility for screen readers and helps search engines understand page content.
+
+CSS (Cascading Style Sheets) controls the visual presentation. The cascade determines which styles apply when multiple rules target the same element. Specificity order: inline styles > ID selectors > class selectors > element selectors.
+
+CSS Flexbox: One-dimensional layout system for arranging items in a row or column.
+- display: flex creates a flex container
+- justify-content: Controls alignment along the main axis (center, space-between, space-around)
+- align-items: Controls alignment along the cross axis (center, stretch, flex-start)
+
+CSS Grid: Two-dimensional layout system for creating complex page layouts.
+- display: grid creates a grid container
+- grid-template-columns: Defines column sizes (e.g., repeat(3, 1fr) creates 3 equal columns)
+- grid-gap: Sets spacing between grid items
+- Best for overall page layout, while Flexbox is best for component-level alignment
+
+Responsive Design: Making websites work on all screen sizes.
+- Media queries: @media (max-width: 768px) applies styles only on screens smaller than 768px
+- Mobile-first approach: Design for mobile screens first, then add styles for larger screens
+- Viewport meta tag: <meta name="viewport" content="width=device-width, initial-scale=1"> ensures proper scaling
+
+Module 3: JavaScript Fundamentals
+
+JavaScript is the programming language of the web. It runs in the browser and enables interactive features.
+
+Variables: let (block-scoped, reassignable), const (block-scoped, not reassignable), var (function-scoped, avoid using).
+
+Functions:
+- Regular function: function add(a, b) { return a + b; }
+- Arrow function: const add = (a, b) => a + b;
+- Arrow functions don't have their own 'this' context, which matters in event handlers and classes.
+
+Asynchronous JavaScript:
+- Callbacks: Pass a function to be called later. Can lead to "callback hell" with nested callbacks.
+- Promises: Represent a future value. Use .then() for success and .catch() for errors.
+- Async/Await: Syntactic sugar over Promises. Makes asynchronous code look synchronous.
+
+Example:
+async function fetchUserData(userId) {
+  try {
+    const response = await fetch('/api/users/' + userId);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Failed to fetch user:', error);
+  }
+}
+
+DOM Manipulation: JavaScript can read and modify the HTML document.
+- document.getElementById('myId') — Select element by ID
+- element.addEventListener('click', handler) — Listen for events
+- element.textContent = 'New text' — Change text content
+- element.classList.add('active') — Add CSS class
+
+Module 4: React Framework
+
+React is a JavaScript library for building user interfaces using components.
+
+Key Concepts:
+- Components: Reusable pieces of UI. Can be functions that return JSX (HTML-like syntax in JavaScript).
+- Props: Data passed from parent to child components. Read-only.
+- State: Data managed within a component using useState hook. When state changes, the component re-renders.
+- useEffect: Side effect hook for data fetching, subscriptions, or DOM manipulation. Runs after render.
+
+Virtual DOM: React maintains a lightweight copy of the actual DOM. When state changes, React compares the new virtual DOM with the previous one (diffing), and only updates the parts of the real DOM that changed. This makes React fast.
+
+Module 5: APIs and REST
+
+API (Application Programming Interface): A set of rules for how software components communicate.
+
+REST (Representational State Transfer): An architectural style for building APIs.
+- GET: Retrieve data (e.g., GET /api/users returns list of users)
+- POST: Create new data (e.g., POST /api/users creates a new user)
+- PUT: Update existing data entirely
+- PATCH: Update existing data partially
+- DELETE: Remove data
+
+JSON (JavaScript Object Notation): Standard format for data exchange in APIs.
+Example: { "name": "Vishwajeet", "role": "student", "courses": ["ML", "DSA", "Web Dev"] }
+
+Module 6: Security Basics
+
+Common Web Security Threats:
+- XSS (Cross-Site Scripting): Attacker injects malicious JavaScript into a website. Prevention: Sanitize user inputs, use Content Security Policy headers.
+- CSRF (Cross-Site Request Forgery): Tricks authenticated users into making unwanted requests. Prevention: Use CSRF tokens, SameSite cookies.
+- SQL Injection: Attacker manipulates database queries through user input. Prevention: Use parameterized queries, never concatenate user input into SQL.
+- HTTPS: Encrypts data between browser and server using TLS. Always use HTTPS in production.
+
+Authentication vs Authorization:
+- Authentication: Verifying WHO you are (login with email/password)
+- Authorization: Verifying WHAT you can access (admin vs regular user permissions)
+
+JWT (JSON Web Token): A compact token format for securely transmitting information. Contains header, payload (user data), and signature. The server signs the token with a secret key so it can verify the token hasn't been tampered with.

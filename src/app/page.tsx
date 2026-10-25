@@ -16,8 +16,6 @@ import {
   Network,
   BookOpen,
   CheckCircle2,
-  Lock,
-  Compass,
 } from "lucide-react";
 
 import { AnimatedTypingText } from "@/components/landing/AnimatedTypingText";
@@ -103,57 +101,54 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-50/60 via-slate-50/40 to-white text-slate-900 relative selection:bg-blue-100 selection:text-blue-900">
-      {/* Decorative SVG curves and subtle glowing gradient orbs */}
+    <div className="min-h-screen bg-[#050a18] text-white relative selection:bg-[#8BFF68]/30 selection:text-white overflow-hidden">
+      {/* Dark decorative background elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
-        <div className="absolute -top-32 -left-32 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl animate-pulse-glow" />
-        <div className="absolute top-1/4 -right-32 w-96 h-96 bg-indigo-400/10 rounded-full blur-3xl animate-pulse-glow" style={{ animationDelay: "2s" }} />
-        <div className="absolute top-2/3 left-1/3 w-[500px] h-[500px] bg-sky-300/10 rounded-full blur-3xl" />
-        <svg
-          className="absolute top-0 left-0 w-full h-[600px] opacity-[0.25]"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1440 320"
-        >
-          <path
-            fill="#3b82f6"
-            fillOpacity="0.05"
-            d="M0,192L48,197.3C96,203,192,213,288,197.3C384,181,480,139,576,144C672,149,768,203,864,208C960,213,1056,171,1152,149.3C1248,128,1344,128,1392,128L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
-          />
-        </svg>
+        <div className="absolute -top-32 -left-32 w-[500px] h-[500px] bg-blue-600/8 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 -right-32 w-[500px] h-[500px] bg-[#8BFF68]/5 rounded-full blur-3xl" />
+        <div className="absolute top-2/3 left-1/3 w-[600px] h-[600px] bg-indigo-600/6 rounded-full blur-3xl" />
+        {/* Dot grid pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage: "radial-gradient(#8BFF68 1px, transparent 1px)",
+            backgroundSize: "32px 32px",
+          }}
+        />
       </div>
 
-      {/* Sticky Responsive Navbar */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/80 transition-all">
+      {/* Sticky Dark Navbar */}
+      <header className="sticky top-0 z-50 bg-[#050a18]/90 backdrop-blur-xl border-b border-white/10 transition-all">
         <div className="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="p-2 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-xl text-white shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform">
+            <div className="p-2 bg-[#8BFF68] rounded-xl text-black shadow-[0_0_20px_rgba(139,255,104,0.4)] group-hover:scale-110 transition-transform">
               <Brain className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-lg font-black tracking-tight text-slate-900 group-hover:text-blue-600 transition-colors">
+              <span className="text-lg font-black tracking-tight text-white group-hover:text-[#8BFF68] transition-colors">
                 MindMap AI
               </span>
-              <span className="ml-2 text-[11px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200 font-bold uppercase tracking-wider">
+              <span className="ml-2 text-[11px] px-2 py-0.5 rounded-full bg-[#8BFF68]/15 text-[#8BFF68] border border-[#8BFF68]/30 font-bold uppercase tracking-wider">
                 Edu Edition
               </span>
             </div>
           </Link>
 
           {/* Nav links */}
-          <nav className="hidden md:flex items-center gap-6 text-xs font-semibold text-slate-600">
-            <a href="#features" className="hover:text-blue-600 transition-colors">
+          <nav className="hidden md:flex items-center gap-6 text-xs font-semibold text-slate-400">
+            <a href="#features" className="hover:text-[#8BFF68] transition-colors">
               Features
             </a>
-            <a href="#preview" className="hover:text-blue-600 transition-colors">
+            <a href="#preview" className="hover:text-[#8BFF68] transition-colors">
               Studio Preview
             </a>
-            <a href="#demo" className="hover:text-blue-600 transition-colors">
+            <a href="#demo" className="hover:text-[#8BFF68] transition-colors">
               Interactive Demo
             </a>
-            <a href="#workflow" className="hover:text-blue-600 transition-colors">
+            <a href="#workflow" className="hover:text-[#8BFF68] transition-colors">
               How It Works
             </a>
-            <a href="#upload" className="hover:text-blue-600 transition-colors">
+            <a href="#upload" className="hover:text-[#8BFF68] transition-colors">
               Ingest Notes
             </a>
           </nav>
@@ -163,7 +158,7 @@ export default function LandingPage() {
             {!loading && (
               isAuthenticated ? (
                 <Link href="/dashboard">
-                  <Button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs px-4 py-2 rounded-xl shadow-sm">
+                  <Button className="bg-[#8BFF68] hover:bg-[#a1ff84] text-black font-black text-xs px-4 py-2 rounded-xl shadow-[0_0_20px_rgba(139,255,104,0.4)]">
                     Dashboard
                     <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
                   </Button>
@@ -173,13 +168,13 @@ export default function LandingPage() {
                   <Link href="/auth/login">
                     <Button
                       variant="ghost"
-                      className="text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 px-3 py-1.5 rounded-lg"
+                      className="text-xs font-semibold text-slate-300 hover:text-white hover:bg-white/10 px-3 py-1.5 rounded-lg"
                     >
                       Sign In
                     </Button>
                   </Link>
                   <Link href="/auth/login">
-                    <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-md shadow-blue-600/20">
+                    <Button className="bg-[#8BFF68] hover:bg-[#a1ff84] text-black text-xs font-black px-4 py-2 rounded-xl shadow-[0_0_20px_rgba(139,255,104,0.4)]">
                       1-Click Guest Demo
                     </Button>
                   </Link>
@@ -191,38 +186,40 @@ export default function LandingPage() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 pt-16 sm:pt-20 pb-12 text-center">
+      <section className="relative z-10 max-w-7xl mx-auto px-6 pt-16 sm:pt-24 pb-12 text-center">
         {/* Hackathon Badge */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-blue-50/90 border border-blue-200/90 rounded-full mb-6 shadow-xs">
-          <Sparkles className="w-3.5 h-3.5 text-blue-600" />
-          <span className="text-xs font-semibold text-blue-800">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#8BFF68]/10 border border-[#8BFF68]/30 rounded-full mb-6 shadow-[0_0_15px_rgba(139,255,104,0.15)]">
+          <Sparkles className="w-3.5 h-3.5 text-[#8BFF68]" />
+          <span className="text-xs font-bold text-[#8BFF68]">
             Education Hackathon • Powered by Google Gemini 1.5 Flash &amp; Appwrite VectorsDB
           </span>
         </div>
 
         {/* Static Main Heading */}
-        <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-slate-900 tracking-tight leading-[1.1] mb-4">
+        <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tight leading-[1.05] mb-4">
           The AI Second Brain <br />
-          <span className="saas-gradient-text">For Modern Education</span>
+          <span className="text-[#8BFF68] drop-shadow-[0_0_40px_rgba(139,255,104,0.5)]">
+            For Modern Education
+          </span>
         </h1>
 
-        {/* Animated Rotating Typing Text Line */}
+        {/* Animated Rotating Typing Text (Now BIG & BOLD) */}
         <div className="mb-6">
           <AnimatedTypingText />
         </div>
 
         {/* Description */}
-        <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto mb-8 leading-relaxed">
+        <p className="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto mb-8 leading-relaxed">
           Transform unstructured lecture notes, textbooks, and syllabus outlines into
           interactive visual mind maps, 3D active-recall flashcards, and citation-backed AI conversations.
         </p>
 
         {/* Hero CTAs */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 mb-12">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 mb-14">
           <Link href={isAuthenticated ? "/dashboard" : "/auth/login"} className="w-full sm:w-auto">
             <Button
               size="lg"
-              className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold px-7 py-6 rounded-xl shadow-lg shadow-blue-600/25 transition-all hover:shadow-blue-600/40 w-full sm:w-auto"
+              className="bg-[#8BFF68] hover:bg-[#a1ff84] text-black text-sm font-black px-8 py-6 rounded-xl shadow-[0_0_30px_rgba(139,255,104,0.5)] transition-all hover:shadow-[0_0_45px_rgba(139,255,104,0.7)] w-full sm:w-auto uppercase tracking-wide"
             >
               Explore Interactive Demo
               <ArrowRight className="w-4 h-4 ml-2" />
@@ -232,9 +229,9 @@ export default function LandingPage() {
             <Button
               size="lg"
               variant="outline"
-              className="border-slate-300 hover:bg-slate-100 text-slate-700 text-sm font-semibold px-7 py-6 rounded-xl w-full sm:w-auto shadow-xs"
+              className="border-white/20 hover:bg-white/10 hover:border-[#8BFF68]/50 text-white text-sm font-semibold px-8 py-6 rounded-xl w-full sm:w-auto"
             >
-              <GraduationCap className="w-4 h-4 mr-2 text-blue-600" />
+              <GraduationCap className="w-4 h-4 mr-2 text-[#8BFF68]" />
               Open Study Hub
             </Button>
           </Link>
@@ -249,14 +246,14 @@ export default function LandingPage() {
       {/* Feature Cards Showcase (3D Flip Cards) */}
       <section id="features" className="relative z-10 max-w-7xl mx-auto px-6 py-16">
         <div className="text-center max-w-xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-semibold mb-3 border border-blue-100">
-            <Brain className="w-3.5 h-3.5 text-blue-600" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#8BFF68]/15 text-[#8BFF68] rounded-full text-xs font-bold mb-3 border border-[#8BFF68]/30">
+            <Brain className="w-3.5 h-3.5 text-[#8BFF68]" />
             <span>Interactive Feature Engine</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Designed for <span className="saas-gradient-text">Deeper Retention</span>
+          <h2 className="text-3xl md:text-4xl font-black text-white tracking-tight">
+            Designed for <span className="text-[#8BFF68] drop-shadow-[0_0_20px_rgba(139,255,104,0.4)]">Deeper Retention</span>
           </h2>
-          <p className="text-xs sm:text-sm text-slate-600 mt-2">
+          <p className="text-xs sm:text-sm text-slate-400 mt-2">
             Hover or tap each card to flip and discover the underlying AI reasoning and study mechanics.
           </p>
         </div>
@@ -300,31 +297,32 @@ export default function LandingPage() {
 
       {/* Final Call to Action Banner */}
       <section className="relative z-10 max-w-5xl mx-auto px-6 py-16 text-center">
-        <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-700 text-white rounded-3xl p-8 sm:p-14 shadow-2xl relative overflow-hidden">
-          <div className="max-w-2xl mx-auto space-y-4">
-            <h3 className="text-2xl sm:text-4xl font-extrabold tracking-tight">
+        <div className="bg-gradient-to-r from-[#0e1638] via-[#121c45] to-[#0e1638] border-2 border-[#8BFF68]/50 text-white rounded-3xl p-8 sm:p-14 shadow-[0_0_50px_rgba(139,255,104,0.1)] relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[#8BFF68]/8 rounded-full blur-3xl pointer-events-none" />
+          <div className="max-w-2xl mx-auto space-y-4 relative z-10">
+            <h3 className="text-2xl sm:text-4xl font-black tracking-tight text-white">
               Ready to Upgrade Your Academic Workflow?
             </h3>
-            <p className="text-xs sm:text-sm text-blue-100 max-w-lg mx-auto leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-300 max-w-lg mx-auto leading-relaxed">
               Experience the power of Google Gemini 1.5 Flash and Appwrite VectorsDB in a zero-friction guest demo environment.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
               <Link href="/auth/login" className="w-full sm:w-auto">
                 <Button
                   size="lg"
-                  className="bg-white hover:bg-slate-100 text-blue-700 font-bold text-sm px-8 py-6 rounded-xl shadow-lg w-full sm:w-auto"
+                  className="bg-[#8BFF68] hover:bg-[#a1ff84] text-black font-black text-sm px-8 py-6 rounded-xl shadow-[0_0_30px_rgba(139,255,104,0.5)] w-full sm:w-auto uppercase tracking-wide"
                 >
                   Start 1-Click Guest Demo
-                  <ArrowRight className="w-4 h-4 ml-2 text-blue-700" />
+                  <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </Link>
               <Link href="/dashboard/study" className="w-full sm:w-auto">
                 <Button
                   size="lg"
                   variant="outline"
-                  className="border-white/40 hover:bg-white/10 text-white text-sm font-semibold px-8 py-6 rounded-xl w-full sm:w-auto"
+                  className="border-white/20 hover:bg-white/10 hover:border-[#8BFF68]/50 text-white text-sm font-semibold px-8 py-6 rounded-xl w-full sm:w-auto"
                 >
-                  <GraduationCap className="w-4 h-4 mr-2" />
+                  <GraduationCap className="w-4 h-4 mr-2 text-[#8BFF68]" />
                   Explore Study Workspace
                 </Button>
               </Link>
@@ -333,47 +331,47 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Modern SaaS Footer */}
-      <footer className="relative z-10 border-t border-slate-200/90 bg-slate-50/70 py-12">
+      {/* Dark Modern Footer */}
+      <footer className="relative z-10 border-t border-white/10 bg-[#030710] py-12">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10 text-xs">
             <div className="space-y-3">
               <div className="flex items-center gap-2">
-                <div className="p-1.5 bg-blue-600 rounded-lg text-white">
+                <div className="p-1.5 bg-[#8BFF68] rounded-lg text-black">
                   <Brain className="w-4 h-4" />
                 </div>
-                <span className="font-bold text-sm text-slate-900">MindMap AI</span>
+                <span className="font-black text-sm text-white">MindMap AI</span>
               </div>
-              <p className="text-slate-600 leading-relaxed">
+              <p className="text-slate-400 leading-relaxed">
                 The AI Second Brain for Modern Education. Built for the Google Gemini &amp; Appwrite Education Hackathon.
               </p>
-              <div className="text-[11px] text-slate-600">
-                Category: <strong>Education</strong>
+              <div className="text-[11px] text-slate-500">
+                Category: <strong className="text-[#8BFF68]">Education</strong>
               </div>
             </div>
 
             <div>
-              <h4 className="font-bold text-slate-900 mb-3 uppercase tracking-wider text-[11px]">
+              <h4 className="font-bold text-white mb-3 uppercase tracking-wider text-[11px]">
                 Product Features
               </h4>
-              <ul className="space-y-2 text-slate-600">
+              <ul className="space-y-2 text-slate-400">
                 <li>
-                  <Link href="/dashboard/study" className="hover:text-blue-600 transition-colors">
+                  <Link href="/dashboard/study" className="hover:text-[#8BFF68] transition-colors">
                     Smart Mind Maps
                   </Link>
                 </li>
                 <li>
-                  <Link href="/dashboard/study" className="hover:text-blue-600 transition-colors">
+                  <Link href="/dashboard/study" className="hover:text-[#8BFF68] transition-colors">
                     AI Flashcard Decks
                   </Link>
                 </li>
                 <li>
-                  <Link href="/dashboard/study" className="hover:text-blue-600 transition-colors">
+                  <Link href="/dashboard/study" className="hover:text-[#8BFF68] transition-colors">
                     Exam Study Guides
                   </Link>
                 </li>
                 <li>
-                  <Link href="/dashboard/chat" className="hover:text-blue-600 transition-colors">
+                  <Link href="/dashboard/chat" className="hover:text-[#8BFF68] transition-colors">
                     Citation-Backed Chat
                   </Link>
                 </li>
@@ -381,10 +379,10 @@ export default function LandingPage() {
             </div>
 
             <div>
-              <h4 className="font-bold text-slate-900 mb-3 uppercase tracking-wider text-[11px]">
+              <h4 className="font-bold text-white mb-3 uppercase tracking-wider text-[11px]">
                 Technology Stack
               </h4>
-              <ul className="space-y-2 text-slate-600">
+              <ul className="space-y-2 text-slate-400">
                 <li>Google Gemini 1.5 Flash</li>
                 <li>Gemini text-embedding-004</li>
                 <li>Appwrite VectorsDB</li>
@@ -394,22 +392,22 @@ export default function LandingPage() {
             </div>
 
             <div>
-              <h4 className="font-bold text-slate-900 mb-3 uppercase tracking-wider text-[11px]">
+              <h4 className="font-bold text-white mb-3 uppercase tracking-wider text-[11px]">
                 Quick Links
               </h4>
-              <ul className="space-y-2 text-slate-600">
+              <ul className="space-y-2 text-slate-400">
                 <li>
-                  <Link href="/auth/login" className="hover:text-blue-600 transition-colors">
+                  <Link href="/auth/login" className="hover:text-[#8BFF68] transition-colors">
                     1-Click Guest Access
                   </Link>
                 </li>
                 <li>
-                  <Link href="/dashboard/sources" className="hover:text-blue-600 transition-colors">
+                  <Link href="/dashboard/sources" className="hover:text-[#8BFF68] transition-colors">
                     Document Ingestion
                   </Link>
                 </li>
                 <li>
-                  <Link href="/dashboard" className="hover:text-blue-600 transition-colors">
+                  <Link href="/dashboard" className="hover:text-[#8BFF68] transition-colors">
                     Student Workspace
                   </Link>
                 </li>
@@ -417,12 +415,12 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <div className="pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-600">
+          <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
             <p>
               © 2026 MindMap AI — Edu Edition. All rights reserved.
             </p>
             <div className="flex items-center gap-4">
-              <span className="inline-flex items-center gap-1 text-emerald-600 font-medium">
+              <span className="inline-flex items-center gap-1 text-[#8BFF68] font-bold">
                 <CheckCircle2 className="w-3.5 h-3.5" /> Hackathon Submission Prototype
               </span>
             </div>

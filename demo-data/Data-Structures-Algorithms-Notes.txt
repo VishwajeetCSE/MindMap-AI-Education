@@ -1,0 +1,131 @@
+Data Structures and Algorithms — Complete Study Notes
+
+Chapter 1: Arrays and Linked Lists
+
+Arrays store elements in contiguous memory locations. Accessing any element by index takes O(1) time because the memory address can be calculated directly. However, inserting or deleting elements in the middle requires shifting all subsequent elements, taking O(n) time.
+
+Linked Lists store elements in nodes, where each node contains data and a pointer to the next node. Insertion and deletion at any position take O(1) time if you have a reference to the node. However, accessing an element by index requires traversing from the head, taking O(n) time.
+
+When to use Arrays: Random access is frequent, size is known in advance, cache performance matters.
+When to use Linked Lists: Frequent insertions/deletions, size varies dynamically, no random access needed.
+
+Chapter 2: Stacks and Queues
+
+Stack (LIFO - Last In, First Out):
+- Push: Add element to top — O(1)
+- Pop: Remove element from top — O(1)
+- Peek: View top element without removing — O(1)
+- Applications: Function call stack, undo operations, expression evaluation, bracket matching, DFS traversal
+
+Queue (FIFO - First In, First Out):
+- Enqueue: Add element to rear — O(1)
+- Dequeue: Remove element from front — O(1)
+- Applications: BFS traversal, task scheduling, printer queue, message buffering
+
+Priority Queue: Elements are dequeued based on priority, not insertion order. Implemented using a Heap data structure. Enqueue and Dequeue both take O(log n) time.
+
+Chapter 3: Trees
+
+Binary Search Tree (BST):
+- Each node has at most 2 children
+- Left child < parent < right child
+- Search, Insert, Delete: O(h) where h is height
+- Best case (balanced): h = O(log n)
+- Worst case (skewed): h = O(n) — degenerates into a linked list
+
+AVL Tree (Self-Balancing BST):
+- Maintains balance factor (height difference between left and right subtrees) between -1 and 1
+- Uses rotations (Left, Right, Left-Right, Right-Left) to maintain balance after insertions/deletions
+- Guarantees O(log n) for all operations
+- More strictly balanced than Red-Black trees, faster lookups but slower insertions
+
+Red-Black Tree:
+- Every node is either red or black
+- Root is always black
+- No two consecutive red nodes
+- Every path from root to null has the same number of black nodes
+- Used in Java TreeMap, C++ std::map, Linux kernel
+- O(log n) for all operations
+
+Heap (Binary Heap):
+- Complete binary tree stored as an array
+- Min-Heap: Parent <= children. Root is minimum element.
+- Max-Heap: Parent >= children. Root is maximum element.
+- Insert: Add at end, bubble up — O(log n)
+- Extract-Min/Max: Remove root, replace with last element, bubble down — O(log n)
+- Build Heap: O(n) using bottom-up approach
+- Used in: Priority Queues, Heap Sort, Dijkstra's Algorithm
+
+Chapter 4: Graph Algorithms
+
+Graph Representation:
+- Adjacency Matrix: O(V^2) space. O(1) edge lookup. Good for dense graphs.
+- Adjacency List: O(V + E) space. O(degree) edge lookup. Good for sparse graphs.
+
+BFS (Breadth-First Search):
+- Uses a Queue (FIFO)
+- Explores all neighbors at current depth before moving deeper
+- Time: O(V + E), Space: O(V)
+- Finds shortest path in unweighted graphs
+- Applications: Shortest path, connected components, bipartite checking
+
+DFS (Depth-First Search):
+- Uses a Stack (or recursion)
+- Explores as deep as possible before backtracking
+- Time: O(V + E), Space: O(V)
+- Applications: Topological sort, cycle detection, strongly connected components, maze solving
+
+Dijkstra's Algorithm (Single-Source Shortest Path):
+- Works with non-negative edge weights only
+- Uses a Min-Heap Priority Queue
+- Greedy approach: Always processes the vertex with smallest known distance
+- Time: O((V + E) log V) with binary heap, O(V^2) with array
+- IMPORTANT: Fails with negative edge weights! Use Bellman-Ford instead.
+
+Bellman-Ford Algorithm:
+- Handles negative edge weights
+- Relaxes all edges V-1 times
+- Can detect negative weight cycles (if any edge can still be relaxed after V-1 iterations)
+- Time: O(V * E) — slower than Dijkstra
+- Used when negative weights exist or negative cycle detection is needed
+
+Chapter 5: Sorting Algorithms
+
+Comparison of Sorting Algorithms:
+- Bubble Sort: O(n^2) average and worst. Stable. In-place. Simple but slow.
+- Selection Sort: O(n^2) always. Not stable. In-place.
+- Insertion Sort: O(n^2) worst, O(n) best (nearly sorted data). Stable. In-place. Good for small arrays.
+- Merge Sort: O(n log n) always. Stable. NOT in-place (O(n) extra space). Divide and conquer.
+- Quick Sort: O(n log n) average, O(n^2) worst. NOT stable. In-place. Fastest in practice.
+- Heap Sort: O(n log n) always. NOT stable. In-place.
+- Counting Sort: O(n + k) where k is range. Stable. NOT comparison-based. Good when k is small.
+- Radix Sort: O(d * (n + k)) where d is digits. Stable. NOT comparison-based.
+
+Key Exam Fact: No comparison-based sorting algorithm can do better than O(n log n) in the worst case. This is proven using decision tree lower bounds.
+
+Chapter 6: Dynamic Programming
+
+Dynamic Programming solves problems by breaking them into overlapping subproblems and storing results to avoid recomputation.
+
+Two approaches:
+1. Top-Down (Memoization): Start from the main problem, recursively solve subproblems, cache results in a hash map or array.
+2. Bottom-Up (Tabulation): Start from smallest subproblems, iteratively build up to the main problem using a table.
+
+When to use DP: Problem has optimal substructure (optimal solution contains optimal solutions to subproblems) AND overlapping subproblems (same subproblems are solved multiple times).
+
+Classic DP Problems:
+- Fibonacci: F(n) = F(n-1) + F(n-2). Naive recursion is O(2^n). DP reduces to O(n).
+- Longest Common Subsequence (LCS): Given two strings, find longest subsequence common to both. O(m*n).
+- 0/1 Knapsack: Given items with weights and values, maximize value within weight limit. O(n*W).
+- Coin Change: Minimum coins needed to make a given amount. O(n*amount).
+- Edit Distance: Minimum insertions, deletions, substitutions to convert one string to another. O(m*n).
+
+Chapter 7: Time Complexity Cheat Sheet
+
+O(1) — Constant: Array access, hash table lookup
+O(log n) — Logarithmic: Binary search, balanced BST operations
+O(n) — Linear: Linear search, single loop over array
+O(n log n) — Linearithmic: Merge sort, heap sort, efficient sorting
+O(n^2) — Quadratic: Nested loops, bubble sort, selection sort
+O(2^n) — Exponential: Recursive Fibonacci without memoization, power set
+O(n!) — Factorial: Permutations, traveling salesman brute force
