@@ -109,11 +109,25 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    function parseEmbedding(raw: unknown): number[] {
+      if (Array.isArray(raw)) return raw as number[];
+      if (typeof raw === "string") {
+        try {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) return parsed as number[];
+        } catch {}
+      }
+      return [];
+    }
+
     const scored = allEmbeddings
-      .map((doc) => ({
-        doc,
-        score: cosineSimilarity(queryEmbedding, doc.embedding),
-      }))
+      .map((doc) => {
+        const emb = parseEmbedding(doc.embedding);
+        return {
+          doc,
+          score: emb.length === queryEmbedding.length ? cosineSimilarity(queryEmbedding, emb) : 0,
+        };
+      })
       .sort((a, b) => b.score - a.score)
       .slice(0, TOP_K);
 

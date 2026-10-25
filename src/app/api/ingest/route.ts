@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ID, Permission, Role, Query } from "appwrite";
+import { ID, Permission, Role } from "appwrite";
 import {
   databases,
   DATABASE_ID,
@@ -86,7 +86,7 @@ export async function POST(req: NextRequest) {
       fileType: "Note" | "Link" | "PDF";
       textContent: string;
       originalUrl?: string;
-      tags: string[];
+      tags: string[] | string;
     };
 
     // ── Validate required fields ────────────────────────────────────────
@@ -98,27 +98,59 @@ export async function POST(req: NextRequest) {
     }
 
     // ── Document permissions ───────────────────────────────────────────
-    // Using Role.any() allows browser/client SDK access while keeping records tagged by userId
     const permissions = [
       Permission.read(Role.any()),
       Permission.write(Role.any()),
     ];
 
+    // Normalize tags string representation
+    const tagsString = Array.isArray(tags) ? tags.join(", ") : (tags || "");
+    const tagsArray = Array.isArray(tags)
+      ? tags
+      : typeof tags === "string" && tags.trim().length > 0
+      ? tags.split(",").map((t) => t.trim()).filter(Boolean)
+      : [];
+
     // ── 1. Create source metadata document ──────────────────────────────
-    const metadataDoc = await databases.createDocument(
-      DATABASE_ID,
-      METADATA_COLLECTION_ID,
-      ID.unique(),
-      {
-        title,
-        fileType,
-        originalUrl: originalUrl || null,
-        userId,
-        tags,
-        createdAt: new Date().toISOString(),
-      },
-      permissions
-    );
+    // Try with string first (since Appwrite TablesDB column is String by default),
+    // and fallback to array if configured as array in Appwrite.
+    let metadataDoc;
+    try {
+      metadataDoc = await databases.createDocument(
+        DATABASE_ID,
+        METADATA_COLLECTION_ID,
+        ID.unique(),
+        {
+          title,
+          fileType,
+          originalUrl: originalUrl || null,
+          userId,
+          tags: tagsString,
+          createdAt: new Date().toISOString(),
+        },
+        permissions
+      );
+    } catch (err: unknown) {
+      const errMsg = err instanceof Error ? err.message : String(err);
+      if (errMsg.toLowerCase().includes("tags") || errMsg.toLowerCase().includes("array")) {
+        metadataDoc = await databases.createDocument(
+          DATABASE_ID,
+          METADATA_COLLECTION_ID,
+          ID.unique(),
+          {
+            title,
+            fileType,
+            originalUrl: originalUrl || null,
+            userId,
+            tags: tagsArray,
+            createdAt: new Date().toISOString(),
+          },
+          permissions
+        );
+      } else {
+        throw err;
+      }
+    }
 
     const docId = metadataDoc.$id;
 
@@ -129,18 +161,38 @@ export async function POST(req: NextRequest) {
     const embeddingPromises = chunks.map(async (chunk) => {
       const embedding = await generateEmbedding(chunk);
 
-      return databases.createDocument(
-        DATABASE_ID,
-        VECTORS_COLLECTION_ID,
-        ID.unique(),
-        {
-          sourceDocId: docId,
-          userId,
-          textChunk: chunk,
-          embedding,
-        },
-        permissions
-      );
+      try {
+        return await databases.createDocument(
+          DATABASE_ID,
+          VECTORS_COLLECTION_ID,
+          ID.unique(),
+          {
+            sourceDocId: docId,
+            userId,
+            textChunk: chunk,
+            embedding,
+          },
+          permissions
+        );
+      } catch (embErr: unknown) {
+        const embErrMsg = embErr instanceof Error ? embErr.message : String(embErr);
+        // If the embedding column was created as a String/Text column instead of Float array:
+        if (embErrMsg.toLowerCase().includes("embedding") || embErrMsg.toLowerCase().includes("type")) {
+          return await databases.createDocument(
+            DATABASE_ID,
+            VECTORS_COLLECTION_ID,
+            ID.unique(),
+            {
+              sourceDocId: docId,
+              userId,
+              textChunk: chunk,
+              embedding: JSON.stringify(embedding),
+            },
+            permissions
+          );
+        }
+        throw embErr;
+      }
     });
 
     await Promise.all(embeddingPromises);

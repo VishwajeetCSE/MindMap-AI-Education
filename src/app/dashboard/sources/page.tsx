@@ -159,10 +159,20 @@ export default function SourcesPage() {
     }
   };
 
+  const parseTags = (tags: string[] | string | undefined): string[] => {
+    if (!tags) return [];
+    if (Array.isArray(tags)) return tags;
+    if (typeof tags === "string") {
+      return tags.split(",").map((t) => t.trim()).filter(Boolean);
+    }
+    return [];
+  };
+
   const filteredDocs = documents.filter((doc) => {
+    const tagsList = parseTags(doc.tags);
     const matchesSearch =
       doc.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (doc.tags && doc.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase())));
+      tagsList.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()));
     const matchesType = filterType === "all" || doc.fileType === filterType;
     return matchesSearch && matchesType;
   });
@@ -410,10 +420,10 @@ export default function SourcesPage() {
                   </div>
                 </div>
 
-                {doc.tags && doc.tags.length > 0 && (
+                {parseTags(doc.tags).length > 0 && (
                   <div className="flex items-center gap-1.5 flex-wrap">
                     <Tag className="w-3 h-3 text-zinc-600" />
-                    {doc.tags.map((tag) => (
+                    {parseTags(doc.tags).map((tag) => (
                       <Badge
                         key={tag}
                         variant="secondary"

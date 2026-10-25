@@ -72,6 +72,15 @@ export default function DashboardPage() {
     PDF: "bg-orange-500/10 text-orange-400 border-orange-500/20",
   };
 
+  const parseTags = (tags: string[] | string | undefined): string[] => {
+    if (!tags) return [];
+    if (Array.isArray(tags)) return tags;
+    if (typeof tags === "string") {
+      return tags.split(",").map((t) => t.trim()).filter(Boolean);
+    }
+    return [];
+  };
+
   const recentDocs = documents.slice(0, 5);
 
   return (
@@ -190,9 +199,9 @@ export default function DashboardPage() {
                   >
                     {doc.fileType}
                   </Badge>
-                  {doc.tags && doc.tags.length > 0 && (
+                  {parseTags(doc.tags).length > 0 && (
                     <div className="hidden md:flex items-center gap-1">
-                      {doc.tags.slice(0, 2).map((tag) => (
+                      {parseTags(doc.tags).slice(0, 2).map((tag) => (
                         <Badge
                           key={tag}
                           variant="secondary"

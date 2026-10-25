@@ -11,7 +11,7 @@ export interface SourceDocument {
   fileType: "Note" | "Link" | "PDF";
   originalUrl?: string;
   userId: string;
-  tags: string[];
+  tags?: string[] | string;
   createdAt: string;
 }
 
@@ -25,7 +25,7 @@ export interface KnowledgeEmbedding {
   sourceDocId: string;
   userId: string;
   textChunk: string;
-  embedding: number[];
+  embedding: number[] | string;
 }
 
 // ─── Chat ───────────────────────────────────────────────────────────────────
