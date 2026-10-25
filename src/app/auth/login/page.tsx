@@ -8,14 +8,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/use-toast";
-import { Brain, Loader2 } from "lucide-react";
+import { Brain, Loader2, Sparkles, UserCheck } from "lucide-react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAuth();
+  const [isGuestLoading, setIsGuestLoading] = useState(false);
+  const { login, loginAsGuest } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
 
@@ -36,6 +38,20 @@ export default function LoginPage() {
       toast({ title: "Sign in failed", description: message, variant: "destructive" });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleGuestLogin = async () => {
+    setIsGuestLoading(true);
+    try {
+      await loginAsGuest();
+      toast({ title: "Welcome, Guest Researcher!", description: "Logged in via 1-click Demo mode.", variant: "success" });
+      router.push("/dashboard");
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : "Guest access failed. Please try again.";
+      toast({ title: "Guest login failed", description: message, variant: "destructive" });
+    } finally {
+      setIsGuestLoading(false);
     }
   };
 
@@ -60,7 +76,37 @@ export default function LoginPage() {
             </CardDescription>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-4">
+          {/* Guest 1-Click Login Button */}
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleGuestLogin}
+            disabled={isLoading || isGuestLoading}
+            className="w-full border-indigo-500/30 bg-indigo-500/10 text-indigo-300 hover:bg-indigo-500/20 hover:text-indigo-200 py-5 transition-all"
+          >
+            {isGuestLoading ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Connecting as Guest...
+              </>
+            ) : (
+              <>
+                <Sparkles className="w-4 h-4 mr-2 text-indigo-400" />
+                Continue as Guest (1-Click Demo)
+              </>
+            )}
+          </Button>
+
+          <div className="relative my-2">
+            <div className="absolute inset-0 flex items-center">
+              <Separator className="bg-zinc-800" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-zinc-900 px-2 text-zinc-500">Or email sign in</span>
+            </div>
+          </div>
+
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email" className="text-zinc-300">Email</Label>
@@ -70,7 +116,7 @@ export default function LoginPage() {
                 placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                disabled={isLoading}
+                disabled={isLoading || isGuestLoading}
                 className="bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:ring-indigo-500"
               />
             </div>
@@ -82,14 +128,14 @@ export default function LoginPage() {
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                disabled={isLoading}
+                disabled={isLoading || isGuestLoading}
                 className="bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:ring-indigo-500"
               />
             </div>
             <Button
               type="submit"
               className="w-full bg-indigo-600 hover:bg-indigo-500 text-white"
-              disabled={isLoading}
+              disabled={isLoading || isGuestLoading}
             >
               {isLoading ? (
                 <>

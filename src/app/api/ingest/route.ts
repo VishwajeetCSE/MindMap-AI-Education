@@ -85,13 +85,13 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Default permissions (All users can read/write if collection has document security)
+    // Default permissions
     const permissions = [
       Permission.read(Role.any()),
       Permission.write(Role.any()),
     ];
 
-    // Prepare tags in both string and array representations
+    const nowIso = new Date().toISOString();
     const tagsString = Array.isArray(tags) ? tags.join(", ") : (tags ? String(tags) : "");
     const tagsArray = Array.isArray(tags)
       ? tags
@@ -100,78 +100,73 @@ export async function POST(req: NextRequest) {
       : [];
 
     // Base document data
-    const baseData: Record<string, unknown> = {
+    const baseObj: Record<string, unknown> = {
       title,
       fileType,
       userId,
-      createdAt: new Date().toISOString(),
     };
 
-    // Only include originalUrl if it has a non-empty string value
     if (originalUrl && typeof originalUrl === "string" && originalUrl.trim().length > 0) {
-      baseData.originalUrl = originalUrl.trim();
+      baseObj.originalUrl = originalUrl.trim();
     }
 
-    // ── 1. Create source metadata document with multi-tier resilience ───
+    // ── 1. Create source metadata document ──────────────────────────────
+    // The candidate payloads cover all variations of Appwrite column definitions:
+    // - createdAt as array [nowIso] (when user checked Array in Appwrite console)
+    // - createdAt as string nowIso
+    // - createdAt omitted (Appwrite automatically populates $createdAt)
+    // - tags as string vs array vs omitted
+    const candidatePayloads: Record<string, unknown>[] = [
+      // Top candidate: createdAt as array (exact match for user's Appwrite column)
+      { ...baseObj, createdAt: [nowIso], tags: tagsString },
+      { ...baseObj, createdAt: [nowIso], tags: tagsArray },
+      { ...baseObj, createdAt: [nowIso] },
+
+      // String createdAt candidates
+      { ...baseObj, createdAt: nowIso, tags: tagsString },
+      { ...baseObj, createdAt: nowIso, tags: tagsArray },
+      { ...baseObj, createdAt: nowIso },
+
+      // Without custom createdAt (uses Appwrite built-in $createdAt)
+      { ...baseObj, tags: tagsString },
+      { ...baseObj, tags: tagsArray },
+      { ...baseObj },
+    ];
+
     let metadataDoc: { $id: string } | null = null;
     const errors: string[] = [];
 
-    // Attempt 1: tags as string with permissions
-    try {
-      metadataDoc = await databases.createDocument(
-        DATABASE_ID,
-        METADATA_COLLECTION_ID,
-        ID.unique(),
-        { ...baseData, tags: tagsString } as Record<string, unknown>,
-        permissions
-      );
-    } catch (e1: unknown) {
-      const msg1 = e1 instanceof Error ? e1.message : String(e1);
-      errors.push(`Attempt 1: ${msg1}`);
-
-      // Attempt 2: tags as string without permissions (inherits collection permissions)
+    for (const payload of candidatePayloads) {
+      // Try without explicit permissions first (inherits collection permissions)
       try {
         metadataDoc = await databases.createDocument(
           DATABASE_ID,
           METADATA_COLLECTION_ID,
           ID.unique(),
-          { ...baseData, tags: tagsString } as Record<string, unknown>
+          payload
         );
-      } catch (e2: unknown) {
-        const msg2 = e2 instanceof Error ? e2.message : String(e2);
-        errors.push(`Attempt 2: ${msg2}`);
+        if (metadataDoc?.$id) break;
+      } catch (err1: unknown) {
+        errors.push(err1 instanceof Error ? err1.message : String(err1));
+      }
 
-        // Attempt 3: tags as array (if collection configured tags as array)
-        try {
-          metadataDoc = await databases.createDocument(
-            DATABASE_ID,
-            METADATA_COLLECTION_ID,
-            ID.unique(),
-            { ...baseData, tags: tagsArray } as Record<string, unknown>
-          );
-        } catch (e3: unknown) {
-          const msg3 = e3 instanceof Error ? e3.message : String(e3);
-          errors.push(`Attempt 3: ${msg3}`);
-
-          // Attempt 4: without tags attribute at all (guaranteed to succeed if tags column has issues)
-          try {
-            metadataDoc = await databases.createDocument(
-              DATABASE_ID,
-              METADATA_COLLECTION_ID,
-              ID.unique(),
-              baseData as Record<string, unknown>
-            );
-          } catch (e4: unknown) {
-            const msg4 = e4 instanceof Error ? e4.message : String(e4);
-            errors.push(`Attempt 4: ${msg4}`);
-            throw new Error(`Failed to create metadata document. Errors: ${errors.join(" | ")}`);
-          }
-        }
+      // Try with explicit permissions
+      try {
+        metadataDoc = await databases.createDocument(
+          DATABASE_ID,
+          METADATA_COLLECTION_ID,
+          ID.unique(),
+          payload,
+          permissions
+        );
+        if (metadataDoc?.$id) break;
+      } catch (err2: unknown) {
+        errors.push(err2 instanceof Error ? err2.message : String(err2));
       }
     }
 
-    if (!metadataDoc) {
-      throw new Error(`Failed to create metadata document: ${errors.join(" | ")}`);
+    if (!metadataDoc?.$id) {
+      throw new Error(`Failed to create document after testing schema variants: ${errors.slice(-3).join(" | ")}`);
     }
 
     const docId = metadataDoc.$id;
@@ -189,41 +184,30 @@ export async function POST(req: NextRequest) {
         textChunk: chunk,
       };
 
-      // Try storing with Float array, fallback to stringified embedding, with or without permissions
-      try {
-        return await databases.createDocument(
-          DATABASE_ID,
-          VECTORS_COLLECTION_ID,
-          ID.unique(),
-          { ...chunkData, embedding },
-          permissions
-        );
-      } catch {
+      const embeddingCandidates: Record<string, unknown>[] = [
+        { ...chunkData, embedding },
+        { ...chunkData, embedding: JSON.stringify(embedding) },
+        { ...chunkData, embedding: [embedding] },
+      ];
+
+      for (const payload of embeddingCandidates) {
         try {
           return await databases.createDocument(
             DATABASE_ID,
             VECTORS_COLLECTION_ID,
             ID.unique(),
-            { ...chunkData, embedding }
+            payload
           );
         } catch {
-          // If embedding is configured as Text/String in Appwrite
           try {
             return await databases.createDocument(
               DATABASE_ID,
               VECTORS_COLLECTION_ID,
               ID.unique(),
-              { ...chunkData, embedding: JSON.stringify(embedding) }
-            );
-          } catch {
-            return await databases.createDocument(
-              DATABASE_ID,
-              VECTORS_COLLECTION_ID,
-              ID.unique(),
-              { ...chunkData, embedding: JSON.stringify(embedding) },
+              payload,
               permissions
             );
-          }
+          } catch {}
         }
       }
     });
